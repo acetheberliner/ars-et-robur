@@ -13,7 +13,7 @@ sezione semplice con:
 - contatti: facebook, whatsapp/mail, sede o zona, eventuale referente
 - footer: minimal, dati associazione, privacy/cookie se necessari, credits miei
 
-# Feature da realizzare
+## Feature da realizzare
 
 - design responsive desktop/mobile
 - stile liquid glass moderno
