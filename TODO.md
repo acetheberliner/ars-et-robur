@@ -30,3 +30,37 @@ sezione semplice con:
 - deploy online
 - codice modulare
 - translations.js (?)
+
+### TODO
+
+- Metodo upload facile nuovo programma settimanale in immagine con download [FATTO]
+  - Download programma pdf [FATTO]
+  - Sezione info aggiuntive [FATTO]
+- Loghi sponsor a scorrimento orizzontale [FATTO]
+- Conversion button migliorati [FATTO]
+
+- Label da migliorare
+
+- Font bold da migliorare [FATTO]
+- Gallery (piu foto con lightbox) [FATTO]
+
+- Cambiare palette
+- Rendere piu elegante
+
+- Cambiare background image in hero (?)
+
+- Menu Icons [FATTO]
+- Sezione contatti migliorata [FATTO]
+  - immagine v
+  - label [FATTO]
+  - catch phrase [FATTO]
+  - buttons [FATTO]
+
+- footer migliorato [FATTO]
+- badge labels studiati
+
+- mobile
+
+- logo sito in header e tab
+- robots/sitemap/head compilati
+- favicon.ico

@@ -65,6 +65,43 @@ function initGallery() {
   });
 }
 
+const pdfLightbox = $("#pdfLightbox");
+const pdfLightboxClose = $("#pdfLightboxClose");
+const pdfFrame = $("#pdfFrame");
+
+function openPdfLightbox(src) {
+  if (!pdfLightbox || !pdfFrame || !src) return;
+
+  pdfFrame.src = src;
+  pdfLightbox.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+}
+
+function closePdfLightbox() {
+  if (!pdfLightbox || !pdfFrame) return;
+
+  pdfLightbox.classList.remove("is-open");
+  document.body.style.overflow = "";
+
+  setTimeout(() => {
+    pdfFrame.src = "";
+  }, 250);
+}
+
+function initPdfLightbox() {
+  $$("[data-pdf]").forEach((item) => {
+    item.addEventListener("click", () => {
+      openPdfLightbox(item.dataset.pdf);
+    });
+  });
+
+  pdfLightboxClose?.addEventListener("click", closePdfLightbox);
+
+  pdfLightbox?.addEventListener("click", (event) => {
+    if (event.target === pdfLightbox) closePdfLightbox();
+  });
+}
+
 menuBtn?.addEventListener("click", toggleMobileMenu);
 lightboxClose?.addEventListener("click", closeLightbox);
 
@@ -87,5 +124,6 @@ window.addEventListener("scroll", updateNavbar, { passive: true });
 updateNavbar();
 initReveal();
 initGallery();
+initPdfLightbox();
 
 if (window.lucide) lucide.createIcons();
