@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap');
+
+@font-face {
+font-family: "Avengeance";
+src: url("../assets/fonts/avengeance.ttf") format("woff2"),
+url("../assets/fonts/avengeance.woff") format("woff"),
+url("../assets/fonts/avengeance.ttf") format("truetype");
+font-weight: 400;
+font-style: normal;
+font-display: swap;
+}
+
 :root {
   --bg: #071116;
   --bg-soft: #0d1d24;
@@ -8,7 +20,7 @@
   --muted: rgba(234, 243, 245, 0.72);
   --dark-text: #0b1720;
   --accent: #3892f8;
-  --accent-2: #0062ad;
+  --accent-2: #fef300;
   --border: rgba(255, 255, 255, 0.16);
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
   --radius-lg: 34px;
@@ -73,7 +85,7 @@ button {
 }
 
 .eyebrow {
-  margin-bottom: 14px;
+  margin-bottom: 54px;
   color: var(--accent);
   font-size: 12px;
   font-weight: 800;
@@ -90,12 +102,13 @@ h3 {
 
 h1 {
   max-width: 860px;
-  font-size: clamp(4rem, 5.6vw, 8rem);
-  font-family: 'Playfair Display', serif;
+  font-size: clamp(8.2rem, 5.6vw, 8rem);
+  font-family: 'Avengeance', serif;
   /* background: linear-gradient(, #fff300 0%, #ffffff 50%, #0062ad 100%);
   -webkit-background-clip: text;
   background-clip: text; */
-  color: #ebcd4b;
+  /* color: #ebcd4b; */
+  color: white;
 }
 
 h2 {
@@ -381,10 +394,136 @@ a.brand:hover {
   transform: translateY(-2px);
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+/* .btn-primary {
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent) 66.6667%, var(--accent-2) 66.6667%, var(--accent-2) 100%);
+
   color: #031014;
   box-shadow: 0 18px 50px rgba(56, 189, 248, 0.22);
+} */
+
+/* .btn-primary {
+position: relative;
+color: #031014;
+box-shadow: 0 18px 50px rgba(56, 189, 248, 0.22);
+padding: 0.6rem 1rem;
+border-radius: 8px;
+border: none;
+overflow: hidden;
+background: none;
+}
+.btn-primary::before {
+content: "";
+position: absolute;
+inset: 0;
+background: linear-gradient(180deg, var(--accent) 0%, var(--accent) 66.6667%, var(--accent-2) 66.6667%, var(--accent-2) 100%);
+z-index: 0;
+}
+.btn-primary > * { position: relative; z-index: 1; }
+
+ */
+
+/* .btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+
+  min-height: 54px;
+  padding: 0.8rem 1.8rem 0.8rem 1.35rem;
+
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+
+  color: #fff;
+  background: none;
+  box-shadow: 0 18px 50px rgba(56, 189, 248, 0.22);
+
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%);
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--accent) 0%,
+    var(--accent) 68%,
+    var(--accent-2) 68%,
+    var(--accent-2) 100%
+  );
+  z-index: 0;
+}
+
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-primary .lucide-bike,
+.btn-primary [data-lucide="bike"] {
+  width: 26px;
+  height: 26px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: "Avengeance", sans-serif;
+} */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+
+  padding: .95rem 1.5rem;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,255,255,.14);
+
+  background: rgba(255,255,255,.08);
+  backdrop-filter: blur(16px);
+
+  color: #fff;
+  font-weight: 700;
+  font-size: .95rem;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.08);
+
+  transition: .25s ease;
+
+  position: relative;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255,255,255,.14);
+
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.25);
+}
+
+.btn-primary [data-lucide]{
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.2;
+  color: #fff;
+}
+
+.btn-primary span{
+  white-space: nowrap;
+  font-size: 1rem;
 }
 
 .btn-light {
@@ -426,9 +565,7 @@ a.brand:hover {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at top left, #0b1920, #042030),
-    url("../assets/images/placeholder-hero.jpg");
+  background: radial-gradient(circle at top left, #042030, #0062ad);
   background-size: cover;
   background-position: center;
   transform: scale(1.04);
@@ -441,7 +578,7 @@ a.brand:hover {
   right: -180px;
   top: 14%;
   border-radius: 50%;
-  background: linear-gradient( 135deg, rgba(238, 195, 55, 0.349), transparent 100%);
+  /* background: linear-gradient( 135deg, rgba(238, 195, 55, 0.349), transparent 100%); */
   filter: blur(150px);
 }
 
@@ -470,17 +607,18 @@ a.brand:hover {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
+  max-width: 920px;
 
   /* background: rgba(255,255,255,0.08); */
   /* border: 1px solid rgba(255,255,255,0.12); */
 
   /* backdrop-filter: blur(18px); */
 
-  /* box-shadow:
+  box-shadow:
     0 30px 80px rgba(0,0,0,0.45),
-    0 0 80px rgba(0,141,213,0.15); */
+    0 0 80px rgba(0,141,213,0.15);
 
-  /* transform: rotate(3deg); */
+  transform: rotate(3deg);
   transition: transform .45s ease;
 }
 
@@ -490,7 +628,7 @@ a.brand:hover {
 
 .hero-image {
   width: 100%;
-  max-width: 620px;
+  max-width: 820px;
   display: block;
   object-fit: cover;
 }
@@ -884,6 +1022,14 @@ a.brand:hover {
   padding: 28px;
 }
 
+.subtitle {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
 .sponsor-section {
   position: relative;
   overflow: hidden;
@@ -952,7 +1098,7 @@ a.brand:hover {
   align-items: center;
   width: max-content;
   gap: 64px;
-  animation: sponsorScroll 22s linear infinite;
+  animation: sponsorScroll 15s linear infinite;
 }
 
 .sponsor-logo {
