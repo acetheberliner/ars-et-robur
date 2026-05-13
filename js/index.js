@@ -102,6 +102,64 @@ function initPdfLightbox() {
   });
 }
 
+async function loadWeeklyPosters() {
+  const grid = document.querySelector("#weeklyGrid");
+  const section = document.querySelector("#uscite");
+
+  if (!grid) return;
+
+  try {
+    const response = await fetch("./assets/weekly/posters.json");
+
+    if (!response.ok) {
+      throw new Error("posters.json non trovato");
+    }
+
+    const posters = await response.json();
+
+    if (!posters.length) {
+      if (section) section.style.display = "none";
+      return;
+    }
+
+    grid.innerHTML = "";
+
+    posters.forEach((poster) => {
+      const card = document.createElement("button");
+
+      card.type = "button";
+      card.className = "weekly-card";
+      card.dataset.src = `./assets/weekly/${poster.file}`;
+
+      const img = document.createElement("img");
+
+      img.src = `./assets/weekly/${poster.file}`;
+      img.alt = poster.title || "Locandina uscita";
+      img.loading = "lazy";
+
+      // se il file non esiste, sparisce
+      img.onerror = () => {
+        card.remove();
+
+        // se non rimane nessuna locandina, nasconde tutta la sezione
+        if (!grid.children.length && section) {
+          section.style.display = "none";
+        }
+      };
+
+      card.appendChild(img);
+      grid.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("errore caricamento locandine:", error);
+
+    if (section) {
+      section.style.display = "none";
+    }
+  }
+}
+
 menuBtn?.addEventListener("click", toggleMobileMenu);
 lightboxClose?.addEventListener("click", closeLightbox);
 
@@ -125,5 +183,6 @@ updateNavbar();
 initReveal();
 initGallery();
 initPdfLightbox();
+loadWeeklyPosters();
 
 if (window.lucide) lucide.createIcons();
