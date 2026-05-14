@@ -131,6 +131,10 @@ async function loadWeeklyPosters() {
       card.className = "weekly-card";
       card.dataset.src = `./assets/weekly/${poster.file}`;
 
+      card.addEventListener("click", () => {
+        openLightbox(card.dataset.src, poster.title || "Locandina uscita");
+      });
+
       const img = document.createElement("img");
 
       img.src = `./assets/weekly/${poster.file}`;

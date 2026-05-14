@@ -27,7 +27,7 @@ font-display: swap;
   --radius-md: 24px;
   --container: 1180px;
   --transition: 0.3s ease;
-  --font: "Montserrat", sans-serif;
+  --font: "Montserrat", ui-sans-serif, system-ui, -apple-system, "BlinkMacSystemFont", "Segoe UI", sans-serif;
 }
 
 * {
@@ -76,12 +76,12 @@ button {
 }
 
 .section-dark {
-  background: radial-gradient(circle at top left, #0b1920, #042030);
+  background: radial-gradient(circle at top left, #042030, #0062ad);
   color: var(--white);
 }
 
 .section-soft {
-  background: radial-gradient(circle at top left, #0b1920, #042030);
+  background: radial-gradient(circle at top left, #042030, #0062ad);
 }
 
 .eyebrow {
@@ -113,6 +113,7 @@ h1 {
 
 h2 {
   max-width: 780px;
+  font-weight: 700;
   font-size: clamp(2.4rem, 3.8vw, 4rem);
 }
 
@@ -970,7 +971,8 @@ z-index: 0;
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  justify-content: center;
   gap: 18px;
 }
 
@@ -1342,7 +1344,12 @@ z-index: 0;
 .weekly-card {
   position:relative;
   border:0;
-  padding:0;
+  padding-top:10px;
+  padding-bottom:10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  background-color: #fff;
 
   overflow:hidden;
   border-radius:28px;
@@ -1354,7 +1361,7 @@ z-index: 0;
 
 .weekly-card img{
   width:100%;
-  aspect-ratio:4/5;
+  /* aspect-ratio:4/5; */
   object-fit:cover;
 
   transition:.5s ease;
@@ -1389,9 +1396,18 @@ z-index: 0;
   }
 
   .split,
-  .weekly-layout,
-  .gallery {
+  .weekly-layout {
     grid-template-columns: 1fr;
+  }
+
+   .gallery {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 16px;
+  }
+
+  .gallery-card {
+    width: min(100%, 320px);
   }
 
   .gallery-card {
@@ -1406,22 +1422,31 @@ z-index: 0;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-    .hero-content {
-    grid-template-columns: 1fr;
-    }
+  .hero-content {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  }
 
-    .hero-visual {
+  .hero-text {
+    margin-top: 18px;
+  }
+
+  .hero-visual {
     margin-top: 2rem;
-    }
+  }
 
-    .hero-image {
+  .hero-image {
     max-width: 100%;
-    }
+  }
 
-    .hero-floating-card {
+  .hero-floating-card {
     left: 10px;
     bottom: 10px;
-    }
+  }
+
+  p.eyebrow {
+    margin-bottom: 24px;
+  }
 }
 
 @media (max-width: 640px) {
