@@ -1,0 +1,111 @@
+COPY OPTIMIZATION
+
+Target:
+- 35–70+
+- ciclisti amatoriali
+- persone del territorio
+- sponsor locali
+- amici / curiosi / futuri tesserati
+
+Caratteristiche copy:
+- umano
+- immediato
+- identitario
+- emozionale ma credibile
+- leggibile anche da chi ha 60 anni su mobile
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+hero-subtitle: "La squadra più antica d'Italia!"
+hero-subtitle: "Dal cuore di Cesena, una storia che pedala da generazioni"
+
+hero-text: "Ciclismo, passione e territorio, una squadra nata per vivere la strada insieme, tra uscite collettive, raduni, manifestazioni e passione vera per la bicicletta." 
+hero-text: "Ars et Robur Cesena è molto più di una squadra: è un gruppo di persone unite dalla passione per la bicicletta, dal rispetto della strada e dal piacere di pedalare insieme, ogni settimana."
+
+hero-squadra-cta: "Scoprici"
+hero-squadra-cta: "Conosci la squadra"
+
+hero-uscite-settimanali-cta: "Programmi"
+hero-uscite-settimanali-cta: "Prossime uscite"
+
+
+navbar-cta: "Contattaci"
+navbar-cta: "Unisciti a noi"
+
+
+chi-siamo-title: "Squadra e passione"
+chi-siamo-title: "Più di una squadra"
+
+chi-siamo-text: "Siamo un gruppo organizzato, preciso e puntuale, ma soprattutto appassionato. Tesserarsi con noi significa entrare in una comunità di amici che condividono l’amore per la bicicletta, sempre pronti a supportarsi e a divertirsi insieme."
+chi-siamo-text: "Siamo un gruppo unito, organizzato e appassionato, dove ogni uscita è occasione per condividere chilometri, amicizia e spirito sportivo. Tesserarsi con Ars et Robur significa entrare in una realtà fatta di persone vere, supporto reciproco e passione autentica per la bicicletta."
+
+chi-siamo-aside-title: "Ciclismo amatoriale = spirito vero"
+chi-siamo-aside-title: "Qui conta il gruppo, prima dei km"
+
+chi-siamo-aside-text: "Allenamenti, uscite sociali, eventi e raduni: la squadra vive la bici come esperienza, non solo come prestazione."
+chi-siamo-aside-text: ""
+
+
+squadra-title: "Volti e momenti"
+squadra-title: "Volti, sorrisi e chilometri condivisi"
+
+squadra-text: "Uno spazio pensato per valorizzare le immagini della squadra in modo immersivo, non come semplice galleria statica."
+squadra-text: "Ogni fotografia racconta una storia fatta di salite, risate, fatica, soddisfazioni e momenti che rendono unico il nostro gruppo."
+
+
+uscite-settimanali-title: "Che fai vieni?"
+uscite-settimanali-title: "Si parte, vieni con noi?"
+
+uscite-settimanali-text: "Qui trovi la locandina aggiornata con il programma della settimana: orari, ritrovo, percorso e informazioni utili per partecipare."
+uscite-settimanali-text: "Consulta i programmi aggiornati con orari, punti di ritrovo, percorsi e tutte le informazioni utili per pedalare insieme al gruppo."
+
+uscite-settimanali-cta: "Apri su facebook"
+uscite-settimanali-cta: ""
+
+
+attività-title: "Non solo chilometri"
+attività-title: ""
+
+attività-text-title-1: "Uscite sociali"
+attività-text-title-1: "Pedalare insieme"
+
+attività-text-text-1: "Momenti di gruppo per pedalare insieme e condividere la strada."
+attività-text-text-1: "Ogni uscita è un’occasione per condividere chilometri, sorrisi, fatica e quella complicità che nasce solo vivendo la strada in gruppo."
+
+attività-text-title-2: "Percorsi e territorio"
+attività-text-title-2: "Territorio da vivere"
+
+attività-text-text-2: "Itinerari tra Cesena, colline, Romagna e luoghi simbolo del ciclismo locale."
+attività-text-text-2: "Dalle strade di Cesena alle colline romagnole e non solo, ogni percorso racconta il territorio attraverso panorami, salite e luoghi simbolo del ciclismo locale."
+
+attività-text-title-3: "Eventi e raduni"
+attività-text-title-3: "Eventi e grandi sfide"
+
+attività-text-text-3: "Partecipazione a percorsi, mediofondi e manifestazioni cicloturistiche in romagna e dintorni."
+attività-text-text-3: "Raduni, mediofondi, manifestazioni e appuntamenti cicloturistici vissuti con entusiasmo, spirito sportivo e voglia di mettersi in gioco."
+
+attività-text-title-4: "Gruppo e passione"
+attività-text-title-4: "Valori che uniscono"
+
+attività-text-text-4: "Attenzione alla strada, al rispetto reciproco e alla condivisione di un modo sano di vivere la bici."
+attività-text-text-4: "Rispetto, sicurezza, amicizia e passione autentica: perché vivere la bicicletta significa anche condividere uno stile di vita sano e genuino."
+
+
+sponsor-title: "Pedalano con noi"
+sponsor-title: ""
+
+sponsor-text: "Realtà, aziende e attività del territorio che sostengono la squadra e condividono i valori dello sport, della socialità e della partecipazione."
+sponsor-text: ""
+
+sponsor-aside-text: "Vuoi sostenere Ars et Robur?"
+sponsor-aside-text: "Vuoi fare parte del team?"
+
+sponsor-aside-cta: "Diventa sponsor"
+sponsor-aside-cta: "Sostieni la squadra"
+
+
+contatti-title: "Ti unisci a noi?"
+contatti-title: "Pronto a pedalare con noi?"
+
+contatti-text: "L’iscrizione è aperta a tutti, dai principianti ai ciclisti esperti. Non importa chi tu sia, se ami pedalare, noi siamo qui per te! Vuoi solamente dare un'occhiata? Ecco tutti i nostri canali social."
+contatti-text: "Che tu sia alle prime pedalate o un ciclista esperto, in Ars et Robur troverai sempre un gruppo pronto ad accoglierti. Scopri i nostri canali, seguici sui social o scrivici direttamente."
