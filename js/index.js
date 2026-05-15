@@ -164,6 +164,113 @@ async function loadWeeklyPosters() {
   }
 }
 
+async function loadGallery() {
+  const track = document.querySelector("#galleryTrack");
+  const prev = document.querySelector("#galleryPrev");
+  const next = document.querySelector("#galleryNext");
+
+  if (!track) return;
+
+  try {
+    const response = await fetch("./assets/gallery/gallery.json");
+
+    if (!response.ok) {
+      throw new Error("gallery.json non trovato");
+    }
+
+    const images = await response.json();
+
+    if (!images.length) return;
+
+    track.innerHTML = "";
+
+    images.forEach((image) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "gallery-card";
+      card.dataset.src = `./assets/gallery/${image.file}`;
+
+      const img = document.createElement("img");
+      img.src = `./assets/gallery/${image.file}`;
+      img.alt = image.alt || "foto ars et robur";
+      img.loading = "lazy";
+
+      img.onerror = () => {
+        card.remove();
+      };
+
+      card.appendChild(img);
+      track.appendChild(card);
+    });
+
+    track.querySelectorAll(".gallery-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        openLightbox(card.dataset.src, card.querySelector("img")?.alt || "");
+      });
+    });
+
+    const getStep = () => {
+      const firstCard = track.querySelector(".gallery-card");
+      if (!firstCard) return 320;
+
+      const gap = parseInt(getComputedStyle(track).gap || 22, 10);
+      return firstCard.offsetWidth + gap;
+    };
+
+    prev?.addEventListener("click", () => {
+      track.scrollBy({ left: -getStep(), behavior: "smooth" });
+    });
+
+    next?.addEventListener("click", () => {
+      track.scrollBy({ left: getStep(), behavior: "smooth" });
+    });
+
+  } catch (error) {
+    console.error("errore caricamento gallery:", error);
+  }
+}
+
+async function loadSponsors() {
+  const track = document.querySelector("#sponsorTrack");
+
+  if (!track) return;
+
+  try {
+    const response = await fetch("./assets/images/sponsor/sponsor.json");
+
+    if (!response.ok) {
+      throw new Error("sponsor.json non trovato");
+    }
+
+    const sponsors = await response.json();
+
+    if (!sponsors.length) return;
+
+    const duplicatedSponsors = [...sponsors, ...sponsors];
+
+    track.innerHTML = "";
+
+    duplicatedSponsors.forEach((sponsor) => {
+      const logo = document.createElement("div");
+      logo.className = "sponsor-logo";
+
+      const img = document.createElement("img");
+      img.src = `./assets/images/sponsor/${sponsor.file}`;
+      img.alt = sponsor.alt || "Logo sponsor";
+      img.loading = "lazy";
+
+      img.onerror = () => {
+        logo.remove();
+      };
+
+      logo.appendChild(img);
+      track.appendChild(logo);
+    });
+  } catch (error) {
+    console.error("errore caricamento sponsor:", error);
+  }
+}
+
 menuBtn?.addEventListener("click", toggleMobileMenu);
 lightboxClose?.addEventListener("click", closeLightbox);
 
@@ -188,5 +295,7 @@ initReveal();
 initGallery();
 initPdfLightbox();
 loadWeeklyPosters();
+loadGallery();
+loadSponsors();
 
 if (window.lucide) lucide.createIcons();

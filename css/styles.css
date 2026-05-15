@@ -2,9 +2,9 @@
 
 @font-face {
 font-family: "Avengeance";
-src: url("../assets/fonts/avengeance.ttf") format("woff2"),
-url("../assets/fonts/avengeance.woff") format("woff"),
-url("../assets/fonts/avengeance.ttf") format("truetype");
+src: url("../fonts/avengeance.ttf") format("woff2"),
+url("../fonts/avengeance.woff") format("woff"),
+url("../fonts/avengeance.ttf") format("truetype");
 font-weight: 400;
 font-style: normal;
 font-display: swap;
@@ -90,6 +90,99 @@ button {
 .section-dark {
   background: radial-gradient(circle at top left, #042030, #0062ad);
   color: var(--white);
+}
+.gallery-slider {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  margin-top: 56px;
+}
+
+.gallery-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(400px, 480px);
+  gap: 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 12px 4px 34px;
+  scrollbar-width: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-card {
+  aspect-ratio: 4 / 3.7;
+  overflow: hidden;
+  border: 0;
+  border-radius: 34px;
+  background: transparent;
+  cursor: pointer;
+  scroll-snap-align: start;
+  padding: 0;
+  box-shadow: none;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s ease, filter .7s ease;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.04);
+}
+
+.gallery-arrow {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: .25s ease;
+  z-index: 2;
+}
+
+.gallery-arrow:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.16);
+}
+
+@media (max-width: 720px) {
+  .gallery-slider {
+    grid-template-columns: 1fr;
+    margin-top: 36px;
+  }
+
+  .gallery-track {
+    grid-auto-columns: minmax(280px, 86vw);
+    gap: 18px;
+    padding-inline: 0;
+  }
+
+  .gallery-card {
+    aspect-ratio: 4 / 3.6;
+    border-radius: 26px;
+  }
+
+  .gallery-arrow {
+    display: none;
+  }
 }
 
 .section-soft {
@@ -212,6 +305,7 @@ a.brand:hover {
   border: 0;
   cursor: pointer;
   transform: rotate(3deg);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -872,7 +966,6 @@ a.brand:hover {
   border: 1px solid rgba(7, 17, 22, 0.08);
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.64);
-  box-shadow: 0 20px 50px rgba(7, 17, 22, 0.08);
   backdrop-filter: blur(18px);
 }
 
@@ -909,7 +1002,7 @@ svg.bikesection {
   gap: 18px;
 }
 
-.gallery-card {
+/* .gallery-card {
   aspect-ratio: 1 / 1;
   overflow: hidden;
 
@@ -919,7 +1012,7 @@ svg.bikesection {
   background: #14252d;
   cursor: pointer;
 
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow);
 
   padding: 0;
 }
@@ -931,13 +1024,13 @@ svg.bikesection {
   object-fit: cover;
 
   transition: transform .6s ease;
-}
+} */
 
-.gallery-card:hover img {
+/* .gallery-card:hover img {
   transform: scale(1.05);
-}
+} */
 
-.poster-card {
+/* .poster-card {
   overflow: hidden;
   padding: 4px;
   rotate: calc(5deg);
@@ -947,7 +1040,7 @@ svg.bikesection {
   border-radius: 24px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-}
+} */
 
 .cards-grid {
   display: grid;

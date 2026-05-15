@@ -4,20 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Ars et Robur Cesena | Squadra Ciclistica</title>
-  <meta name="description" content="Sito ufficiale GS Ars et Robur Cesena: squadra ciclistica, uscite, attività, foto, sponsor e contatti." />
+  <title>GS Ars et Robur Cesena | Squadra Ciclistica Storica a Cesena</title>
+  <meta name="title" content="GS Ars et Robur Cesena | Squadra Ciclistica Storica a Cesena" />
+  <meta name="description" content="Sito ufficiale GS Ars et Robur Cesena: squadra ciclistica storica di Cesena. Uscite, programmi, attività, foto, sponsor e contatti." />
+  <meta name="keywords" content="Ars et Robur, GS Ars et Robur Cesena, squadra ciclistica Cesena, ciclismo Cesena, gruppo ciclistico Cesena, cicloturismo Cesena, uscite bici Cesena" />
+  <meta name="author" content="GS Ars et Robur Cesena" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="https://www.gsarsetrobur-cesena.com/" />
 
   <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
-  <!-- <link rel="canonical" href="https://ars-et-robur.netlify.app/"> 
-  <link rel="stylesheet" href="./css/styles.min.css" /> -->
 
-  <meta property="og:title" content="GS Ars et Robur Cesena | Squadra Ciclistica" />
-  <meta property="og:description" content="Passione, gruppo e territorio: il ciclismo a Cesena vissuto insieme." />
-  <meta property="og:image" content="./assets/images/placeholder-hero.jpg" />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:site_name" content="GS Ars et Robur Cesena" />
+  <meta property="og:title" content="GS Ars et Robur Cesena | Squadra Ciclistica" />
+  <meta property="og:description" content="Dal cuore di Cesena, una storia che pedala da generazioni. Scopri uscite, attività, foto, sponsor e contatti di GS Ars et Robur Cesena." />
+  <meta property="og:url" content="https://www.gsarsetrobur-cesena.com/" />
+  <meta property="og:image" content="./assets/images/FotoSociale.jpeg" />
+  <meta property="og:image:alt" content="Foto di gruppo della squadra ciclistica GS Ars et Robur Cesena" />
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GS Ars et Robur Cesena | Squadra Ciclistica" />
+  <meta name="twitter:description" content="Squadra ciclistica storica di Cesena. Uscite, programmi, attività, foto, sponsor e contatti." />
+  <meta name="twitter:image" content="./assets/images/FotoSociale.jpeg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsOrganization",
+    "name": "GS Ars et Robur Cesena",
+    "url": "https://www.gsarsetrobur-cesena.com/",
+    "logo": "./assets/images/circle_logo.png",
+    "image": "./assets/images/FotoSociale.jpeg",
+    "sport": "Cycling",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Viale Antonio Gramsci, 293",
+      "postalCode": "47522",
+      "addressLocality": "Cesena",
+      "addressRegion": "FC",
+      "addressCountry": "IT"
+    },
+    "sameAs": [
+      "https://www.facebook.com/arsetrobur",
+      "https://www.instagram.com/ars_et_robur/"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/styles.css" />
+
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -154,19 +192,20 @@
           <p class="eyebrow">squadra</p>
           <h2>Volti, sorrisi e chilometri condivisi</h2>
           <p>
-            Ogni fotografia racconta una storia fatta di salite, risate, fatica, soddisfazioni e momenti che rendono unico il nostro gruppo.
+            Ogni fotografia racconta una storia fatta di salite, risate, fatica,
+            soddisfazioni e momenti che rendono unico il nostro gruppo.
           </p>
         </div>
 
-        <div class="gallery reveal">
-          <button class="gallery-card" data-src="./assets/images/placeholder-team-1.jpg">
-            <img src="https://placehold.co/360x360" alt="foto squadra ars et robur" />
+        <div class="gallery-slider reveal">
+          <button id="galleryPrev" class="gallery-arrow" type="button" aria-label="foto precedente">
+            <i data-lucide="chevron-left"></i>
           </button>
-          <button class="gallery-card" data-src="./assets/images/placeholder-team-2.jpg">
-            <img src="https://placehold.co/360x360" alt="uscita ciclistica" />
-          </button>
-          <button class="gallery-card" data-src="./assets/images/placeholder-team-3.jpg">
-            <img src="https://placehold.co/360x360" alt="gruppo in bici" />
+
+          <div id="galleryTrack" class="gallery-track"></div>
+
+          <button id="galleryNext" class="gallery-arrow" type="button" aria-label="foto successiva">
+            <i data-lucide="chevron-right"></i>
           </button>
         </div>
       </div>
@@ -275,92 +314,7 @@
       </div>
 
       <div class="sponsor-marquee reveal">
-        <div class="sponsor-marquee-track">
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Alice Bike.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Anofor.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Autolab.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Babbi.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Brunelli.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Centrale Cesena.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Cesena Spurghi.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Eccomi.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Farmacia del Bivio.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Fungo Cesena.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Optimus3.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/TirGroup.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Upa.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Zoffoli Banane.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Alice Bike.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Anofor.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Autolab.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Babbi.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Brunelli.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Centrale Cesena.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Cesena Spurghi.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Eccomi.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Farmacia del Bivio.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Fungo Cesena.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Optimus3.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/TirGroup.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Upa.png" alt="Logo sponsor">
-          </div>
-          <div class="sponsor-logo">
-            <img src="assets/images/sponsor/Zoffoli Banane.png" alt="Logo sponsor">
-          </div>
-        </div>
+        <div id="sponsorTrack" class="sponsor-marquee-track"></div>
       </div>
     </section>
 
@@ -460,7 +414,7 @@
 
         <div class="contact-visual" aria-hidden="true">
           <div class="contact-photo-card">
-            <img src="https://placehold.co/520x640" alt="" />
+            <img src="./assets/gallery/foto-9.jpeg" alt="" />
           </div>
         </div>
       </div>
@@ -478,6 +432,10 @@
         </div>
 
         <div class="footer-legal">
+          <p>
+            <i data-lucide="map-pin"></i>
+            <b>Viale Antonio Gramsci, 293 - 47522 Cesena (FC)</b>
+          </p>
           <p>© 2026 - G.S. Ars et Robur Cesena. Tutti i diritti riservati.</p>
           <p>Logo, nome e contenuti fotografici appartengono alla squadra e/o ai rispettivi aventi diritto.</p>
         </div>

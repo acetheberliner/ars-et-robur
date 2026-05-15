@@ -1,0 +1,16 @@
+[
+  { "file": "AliceBike.png", "alt": "Alice Bike" },
+  { "file": "Anofor.png", "alt": "Anofor" },
+  { "file": "Autolab.png", "alt": "Autolab" },
+  { "file": "Babbi.png", "alt": "Babbi" },
+  { "file": "Brunelli.png", "alt": "Brunelli" },
+  { "file": "CentraleCesena.png", "alt": "Centrale Cesena" },
+  { "file": "CesenaSpurghi.png", "alt": "Cesena Spurghi" },
+  { "file": "Eccomi.png", "alt": "Eccomi" },
+  { "file": "FarmaciaDelBivio.png", "alt": "Farmacia del Bivio" },
+  { "file": "FungoCesena.png", "alt": "Fungo Cesena" },
+  { "file": "Optimus3.png", "alt": "Optimus3" },
+  { "file": "TirGroup.png", "alt": "TirGroup" },
+  { "file": "Upa.png", "alt": "UPA" },
+  { "file": "ZoffoliBanane.png", "alt": "Zoffoli Banane" }
+]
