@@ -1323,18 +1323,28 @@ svg.bikesection {
 }
 
 .footer-credit {
-  color: rgba(255, 255, 255, 0.46);
+  color: rgba(255, 255, 255, 0.46);;
   font-size: 0.82rem;
   transition: 0.25s ease;
+  border: 1px solid #ffffff57;
+  background: linear-gradient(90deg, #023b63, #023b63);
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 0 auto;
 }
 
 .footer-credit span {
-  color: rgba(255, 255, 255, 0.68);
+  color: rgb(255, 255, 255);
   font-weight: 700;
 }
 
+.logo-footer {
+  margin: 0 auto;
+}
+
 .footer-credit:hover {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.555);
+  text-decoration: none;
 }
 
 @media (max-width: 760px) {
@@ -1480,7 +1490,7 @@ svg.bikesection {
     grid-template-columns: 1fr;
   }
 
-   .gallery {
+  .gallery {
     grid-template-columns: 1fr;
     justify-items: center;
     gap: 16px;
