@@ -8,8 +8,21 @@ const lightbox = $("#lightbox");
 const lightboxImage = $("#lightboxImage");
 const lightboxClose = $("#lightboxClose");
 
+const brandLogo = document.querySelector("#brandLogo");
+
+const whiteLogo = "./assets/images/LogoArs-removebg.png";
+const blackLogo = "./assets/images/Ars_tras.png";
+
 function updateNavbar() {
-  navbar?.classList.toggle("is-scrolled", window.scrollY > 24);
+  const isScrolled = window.scrollY > 20;
+
+  navbar.classList.toggle("is-scrolled", isScrolled);
+
+  if (brandLogo) {
+    brandLogo.src = isScrolled
+      ? blackLogo
+      : whiteLogo;
+  }
 }
 
 function toggleMobileMenu() {

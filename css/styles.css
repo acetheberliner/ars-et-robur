@@ -94,17 +94,19 @@ button {
 .gallery-slider {
   position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  width: 100vw;
   align-items: center;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
   gap: 22px;
-  margin-top: 56px;
+  margin-top: 4rem;
 }
 
 .gallery-track {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(400px, 480px);
-  gap: 28px;
+  gap: 15px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -122,7 +124,7 @@ button {
   aspect-ratio: 4 / 3.7;
   overflow: hidden;
   border: 0;
-  border-radius: 34px;
+  border-radius: 24px;
   background: transparent;
   cursor: pointer;
   scroll-snap-align: start;
@@ -135,17 +137,19 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .7s ease, filter .7s ease;
+  transition: .45s ease;
 }
 
 .gallery-card:hover img {
   transform: scale(1.05);
   filter: brightness(1.04);
 }
-
 .gallery-arrow {
   display: grid;
   place-items: center;
+  position: absolute;
+  transform: translateZ(-5%);
+  top: 40%;
   width: 58px;
   height: 58px;
   border: 1px solid rgba(255,255,255,.24);
@@ -156,6 +160,14 @@ button {
   cursor: pointer;
   transition: .25s ease;
   z-index: 2;
+}
+
+#galleryPrev {
+  left: 40px;
+}
+
+#galleryNext {
+  right: 40px;
 }
 
 .gallery-arrow:hover {
@@ -173,6 +185,8 @@ button {
     grid-auto-columns: minmax(280px, 86vw);
     gap: 18px;
     padding-inline: 0;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   .gallery-card {
@@ -207,13 +221,9 @@ h3 {
 
 h1 {
   max-width: 980px;
-  font-size: clamp(8rem, 7.2vw, 10.5rem);
+  font-size: clamp(4.6rem, 7.4vw, 7.2rem);
   font-family: 'Avengeance', serif;
   white-space: nowrap;
-  /* background: linear-gradient(, #fff300 0%, #ffffff 50%, #0062ad 100%);
-  -webkit-background-clip: text;
-  background-clip: text; */
-  /* color: #ebcd4b; */
   color: white;
 }
 
@@ -221,6 +231,10 @@ h2 {
   max-width: 780px;
   font-weight: 700;
   font-size: clamp(2.4rem, 3.8vw, 4rem);
+}
+
+#brandLogo {
+  transition: opacity .25s ease;
 }
 
 h3 {
@@ -252,9 +266,11 @@ h3 {
 .navbar-shell {
   display: flex;
   align-items: center;
+  align-content: center;
   justify-content: space-between;
   gap: 22px;
-  padding: 14px 18px;
+  /* padding: 14px 18px; */
+  max-height: 80px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: rgba(7, 17, 22, 0.42);
@@ -267,6 +283,11 @@ h3 {
   background: rgba(255, 255, 255, 0.82);
   color: var(--dark-text);
   border-color: rgba(7, 17, 22, 0.08);
+  align-content: center;
+  height: 80px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
 }
 
 .brand {
@@ -576,10 +597,10 @@ a.brand:hover {
 
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 100svh;
   display: grid;
   align-items: center;
-  padding: 150px 0 70px;
+  padding: clamp(120px, 14vh, 170px) 0 clamp(48px, 8vh, 80px);
   overflow: hidden;
   color: var(--white);
   background: var(--bg);
@@ -608,8 +629,8 @@ a.brand:hover {
 .hero-content {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(560px, 0.9fr) minmax(700px, 1.1fr);
-  gap: 8rem;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+  gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 }
 
@@ -632,16 +653,7 @@ a.brand:hover {
   border-radius: 20px;
   max-width: 780px;
   width: 100%;
-
-  /* background: rgba(255,255,255,0.08); */
-  /* border: 1px solid rgba(255,255,255,0.12); */
-
-  /* backdrop-filter: blur(18px); */
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,0.45),
-    0 0 80px rgba(0,141,213,0.15);
-
+  box-shadow:0 30px 80px rgba(0,0,0,0.45), 0 0 80px rgba(0,141,213,0.15);
   transform: rotate(3deg);
   transition: transform .45s ease;
 }
@@ -1493,6 +1505,15 @@ svg.bikesection {
   .hide-mobile {
     display: none !important;
   }
+  
+  .hero {
+    min-height: auto;
+    padding: 130px 0 64px;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
 
   .hero-content {
   grid-template-columns: 1fr;
@@ -1509,6 +1530,15 @@ svg.bikesection {
 
   .hero-image {
     max-width: 100%;
+  }
+
+  h1 {
+    font-size: clamp(4rem, 16vw, 6rem);
+  }
+
+  .hero-image-shell {
+    max-width: 100%;
+    transform: rotate(1.5deg);
   }
 
   .hero-floating-card {
