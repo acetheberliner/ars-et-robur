@@ -1646,9 +1646,7 @@ svg.bikesection {
 
 /* layout desktop controllato */
 .contact-box {
-  position: relative;
-  overflow: visible;
-  z-index: 1;
+  overflow: hidden;
 }
 
 .contact-content {
@@ -1691,12 +1689,11 @@ svg.bikesection {
   right: clamp(-32px, -2.4vw, -14px);
   bottom: clamp(32px, 5vw, 70px);
   width: clamp(250px, 28vw, 410px);
-  z-index: 5;
+  z-index: 1;
 }
 
 .contact-photo-card {
   transform: rotate(4deg);
-  z-index: 6;
 }
 
 .contact-photo-card img {
@@ -1728,7 +1725,7 @@ svg.bikesection {
 /* tablet / laptop stretti: la foto scende sotto */
 @media (max-width: 1120px) {
   .contact-box {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .contact-content {
