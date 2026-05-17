@@ -55,6 +55,10 @@ img {
     height: 32px;
 }
 
+.mobile-minor {
+  font-size: 14px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -202,6 +206,8 @@ button {
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
+
+
 
 h1,
 h2,
@@ -1620,5 +1626,244 @@ svg.bikesection {
 
   .footer-inner {
     flex-direction: column;
+  }
+}
+
+/* ==========================================================
+   responsive fixes - contact section + mobile stability
+   ========================================================== */
+
+/* evita che contenuti lunghi facciano collassare le colonne */
+.contact-section,
+.contact-box,
+.contact-content,
+.contact-copy,
+.contact-actions,
+.contact-social,
+.contact-visual {
+  min-width: 0;
+}
+
+/* layout desktop controllato */
+.contact-box {
+  overflow: hidden;
+}
+
+.contact-content {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 720px);
+  max-width: none;
+}
+
+.contact-copy {
+  min-width: 0;
+}
+
+.contact-copy h2,
+.contact-copy p,
+.contact-social strong,
+.contact-social small {
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+.contact-copy h2 {
+  max-width: 680px;
+  font-size: clamp(2.4rem, 4vw, 3.45rem) !important;
+  line-height: 1.05;
+}
+
+.contact-copy p {
+  max-width: 640px;
+}
+
+.contact-actions {
+  width: min(100%, 640px);
+  max-width: none;
+}
+
+.contact-visual {
+  position: absolute;
+  right: clamp(-32px, -2.4vw, -14px);
+  bottom: clamp(32px, 5vw, 70px);
+  width: clamp(250px, 28vw, 410px);
+  z-index: 1;
+}
+
+.contact-photo-card {
+  transform: rotate(4deg);
+}
+
+.contact-photo-card img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* fascia intermedia: niente sovrapposizioni strane */
+@media (max-width: 1280px) {
+  .contact-box {
+    padding: 46px;
+  }
+
+  .contact-content {
+    width: min(100%, 620px);
+  }
+
+  .contact-actions {
+    width: min(100%, 580px);
+  }
+
+  .contact-visual {
+    width: clamp(230px, 27vw, 330px);
+    right: -18px;
+  }
+}
+
+/* tablet / laptop stretti: la foto scende sotto */
+@media (max-width: 1120px) {
+  .contact-box {
+    overflow: hidden;
+  }
+
+  .contact-content {
+    width: 100%;
+    max-width: none;
+  }
+
+  .contact-copy h2,
+  .contact-copy p {
+    max-width: 100%;
+  }
+
+  .contact-actions {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .contact-visual {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: min(100%, 420px);
+    margin: 42px auto 0;
+  }
+}
+
+/* mobile vero */
+@media (max-width: 720px) {
+  .contact-section {
+    overflow: hidden;
+  }
+
+  .contact-box {
+    width: min(100%, calc(100vw - 32px));
+    min-height: auto;
+    margin-inline: auto;
+    padding: 30px 20px;
+    border-radius: 28px;
+    overflow: hidden;
+  }
+
+  .contact-content {
+    width: 100%;
+  }
+
+  .contact-copy h2 {
+    font-size: clamp(2.25rem, 11vw, 3rem) !important;
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+  }
+
+  .contact-copy p {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .contact-actions {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 30px;
+  }
+
+  .contact-social {
+    width: 100%;
+    min-height: 70px;
+    padding: 14px 16px;
+  }
+
+  .contact-social small {
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-visual {
+    width: min(92%, 330px);
+    margin: 34px auto -8px;
+  }
+
+  .contact-photo-card {
+    border-radius: 28px;
+    transform: rotate(2deg);
+  }
+}
+
+/* mobile stretto */
+@media (max-width: 430px) {
+  .contact-box {
+    padding: 28px 18px;
+  }
+
+  .contact-copy h2 {
+    font-size: clamp(2.05rem, 10.5vw, 2.65rem) !important;
+  }
+
+  .contact-social {
+    gap: 12px;
+  }
+
+  .contact-social-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+}
+
+/* navbar mobile: evita sovrapposizioni enormi */
+@media (max-width: 640px) {
+  .navbar {
+    inset: 16px 0 auto;
+    justify-content: center;
+  }
+
+  .navbar-shell {
+    width: calc(100% - 32px);
+    margin-inline: auto;
+    margin: 0 !important;
+
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
+
+    padding: 0 16px;
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-btn {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
   }
 }
