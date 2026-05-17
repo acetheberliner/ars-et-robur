@@ -10,8 +10,8 @@ const lightboxClose = $("#lightboxClose");
 
 const brandLogo = document.querySelector("#brandLogo");
 
-const whiteLogo = "./assets/images/LogoArs-removebg.png";
-const blackLogo = "./assets/images/Ars_tras.png";
+const whiteLogo = "./assets/images/LogoArs-removebg.webp";
+const blackLogo = "./assets/images/Ars_tras.webp";
 
 function updateNavbar() {
   const isScrolled = window.scrollY > 20;
@@ -303,12 +303,19 @@ $$('a[href^="#"]').forEach((link) => {
 
 window.addEventListener("scroll", updateNavbar, { passive: true });
 
+// -------------------------------------------------------
 updateNavbar();
+
 initReveal();
+
 initGallery();
+
 initPdfLightbox();
-loadWeeklyPosters();
-loadGallery();
-loadSponsors();
+
+window.addEventListener("load", () => {
+  loadWeeklyPosters();
+  loadGallery();
+  loadSponsors();
+});
 
 if (window.lucide) lucide.createIcons();

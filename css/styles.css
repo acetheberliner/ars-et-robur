@@ -1,13 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap'); */
 
 @font-face {
-font-family: "Avengeance";
-src: url("../fonts/avengeance.ttf") format("woff2"),
-url("../fonts/avengeance.woff") format("woff"),
-url("../fonts/avengeance.ttf") format("truetype");
-font-weight: 400;
-font-style: normal;
-font-display: swap;
+  font-family: "Avengeance";
+  src: url("../fonts/avengeance.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -27,20 +25,13 @@ font-display: swap;
   --radius-md: 24px;
   --container: 1180px;
   --transition: 0.3s ease;
-  --font: "Josefin Sans", sans-serif;
+  --font: "Inter", sans-serif;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-.josefin-sans {
-  font-family: "Josefin Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
 }
 
 html {
@@ -276,7 +267,7 @@ h3 {
   background: rgba(7, 17, 22, 0.42);
   color: var(--white);
   backdrop-filter: blur(22px);
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.18);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .navbar.is-scrolled .navbar-shell {
@@ -408,17 +399,6 @@ a.brand:hover {
   }
 }
 
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background-image: url("../assets/images/logo.png"); 
-  color: #031014;
-  font-weight: 900;
-}
-
 .brand small {
   display: block;
   font-size: 10px;
@@ -511,6 +491,7 @@ a.brand:hover {
 .btn-facebook {
   background: #1877f2;
   color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 .btn-facebook:hover {
@@ -581,6 +562,7 @@ a.brand:hover {
   background: var(--surface);
   color: var(--white);
   backdrop-filter: blur(16px);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 .btn-glass:hover {
@@ -775,10 +757,48 @@ a.brand:hover {
   box-shadow: var(--shadow);
 }
 
+@media (max-width: 1150px) {
+
+  .contact-box{
+    overflow:visible;
+  }
+
+  .contact-content{
+    max-width:100%;
+  }
+
+  .contact-visual{
+    position: relative;
+
+    right:auto;
+    bottom:auto;
+
+    width:min(100%,420px);
+
+    margin:40px auto 0;
+  }
+
+}
+
+@media (max-width: 1280px) {
+  .contact-box {
+    padding: 46px;
+  }
+
+  .contact-visual {
+    width: clamp(240px, 28vw, 340px);
+    right: -20px;
+  }
+
+  .contact-content {
+    max-width: calc(100% - 280px);
+  }
+}
+
 .contact-content {
   position: relative;
   z-index: 2;
-  max-width: 720px;
+  max-width: calc(100% - 340px);
 }
 
 .contact-copy h2 {
@@ -831,6 +851,7 @@ a.brand:hover {
   height: 46px;
   flex: 0 0 46px;
   border-radius: 16px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   background: rgba(255,255,255,0.12);
 }
 
@@ -878,10 +899,14 @@ a.brand:hover {
 
 .contact-visual {
   position: absolute;
-  right: -68px;
-  bottom: 70px;
+
+  right: clamp(-40px, -3vw, -20px);
+  bottom: clamp(30px, 5vw, 70px);
+
   z-index: 1;
-  width: min(38vw, 430px);
+
+  width: clamp(260px, 30vw, 430px);
+
   pointer-events: none;
 }
 
@@ -890,7 +915,7 @@ a.brand:hover {
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 34px;
   background: rgba(255,255,255,0.08);
-  box-shadow: 0 34px 90px rgba(0,0,0,0.38);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   transform: rotate(5deg);
 }
 
@@ -924,7 +949,7 @@ a.brand:hover {
 }
 
 @media (max-width: 1080px) {
-  .contact-box {
+  /* .contact-box {
     padding: 46px;
   }
 
@@ -938,15 +963,15 @@ a.brand:hover {
     bottom: auto;
     width: min(100%, 420px);
     margin: 42px auto -90px;
-  }
+  } */
 }
 
 @media (max-width: 720px) {
-  .contact-box {
+  /* .contact-box {
     min-height: auto;
     padding: 32px;
-    overflow: hidden;
-  }
+    overflow: visible;
+  } */
 
   .contact-actions {
     grid-template-columns: 1fr;
@@ -956,19 +981,14 @@ a.brand:hover {
     min-height: 68px;
   }
 
-  .contact-visual {
+  /* .contact-visual {
     width: 82%;
     margin: 36px auto -70px;
     transform: translateX(18px);
-  }
+  } */
 
   .contact-photo-card {
     transform: rotate(4deg);
-  }
-
-  .contact-mini-badge {
-    left: -12px;
-    bottom: 34px;
   }
 }
 
@@ -983,6 +1003,7 @@ a.brand:hover {
 
 .glass-card {
   padding: 34px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .glass-card svg,
@@ -1105,7 +1126,7 @@ svg.bikesection {
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.58);
   backdrop-filter: blur(18px);
-  box-shadow: 0 18px 50px rgba(55, 63, 81, 0.08);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .sponsor-cta span {
