@@ -1836,37 +1836,38 @@ svg.bikesection {
 
 /* navbar mobile: evita sovrapposizioni enormi */
 @media (max-width: 640px) {
+
   .navbar {
-    inset: 16px 0 auto;
-    justify-content: center;
+    top: 8px;
+    left: 0;
+    right: 0;
+
+    padding: 0 8px;
   }
 
   .navbar-shell {
-    width: calc(100% - 32px);
-    margin-inline: auto;
-    margin: 0 !important;
+    width: 100%;
 
-    height: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    height: 84px;
+    min-height: 84px;
+    max-height: 84px;
 
-    padding: 0 16px;
-    border-radius: 999px;
+    padding: 0 14px;
+
+    border-radius: 30px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .brand {
-    height: 100%;
-    display: flex;
-    align-items: center;
+  .brand img {
+    width: 175px !important;
   }
 
   .menu-btn {
-    width: 48px;
-    height: 48px;
-    flex: 0 0 48px;
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
   }
 }
