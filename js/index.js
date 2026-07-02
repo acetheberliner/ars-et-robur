@@ -291,9 +291,44 @@ async function loadSponsors() {
       logo.appendChild(img);
       track.appendChild(logo);
     });
+
+    startSponsorMarquee(track);
   } catch (error) {
     console.error("errore caricamento sponsor:", error);
   }
+}
+
+function startSponsorMarquee(track) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  let position = 0;
+  let previousTime = performance.now();
+  let frameId;
+
+  const getLimit = () => track.scrollWidth / 2;
+
+  const animate = (currentTime) => {
+    const elapsed = currentTime - previousTime;
+    const speed = window.matchMedia("(max-width: 640px)").matches ? 110 : 72;
+    const limit = getLimit();
+
+    previousTime = currentTime;
+    position = limit ? (position + (elapsed * speed / 1000)) % limit : 0;
+    track.style.transform = `translate3d(${-position}px, 0, 0)`;
+    frameId = requestAnimationFrame(animate);
+  };
+
+  const restart = () => {
+    cancelAnimationFrame(frameId);
+    position = 0;
+    previousTime = performance.now();
+    track.style.animation = "none";
+    track.style.transform = "translate3d(0, 0, 0)";
+    frameId = requestAnimationFrame(animate);
+  };
+
+  restart();
+  window.addEventListener("resize", restart);
 }
 
 menuBtn?.addEventListener("click", toggleMobileMenu);

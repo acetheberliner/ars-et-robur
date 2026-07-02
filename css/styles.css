@@ -1147,6 +1147,8 @@ svg.bikesection {
   width: 100%;
   overflow: hidden;
   padding: 18px 0 24px;
+  contain: layout paint;
+  isolation: isolate;
 }
 
 .sponsor-marquee::before,
@@ -1160,6 +1162,8 @@ svg.bikesection {
   width: max-content;
   gap: 64px;
   animation: sponsorScroll 28s linear infinite;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .sponsor-logo {
@@ -1187,6 +1191,7 @@ svg.bikesection {
   height: auto;
 
   object-fit: contain;
+  backface-visibility: hidden;
 
   opacity: .7;
   transition: .3s ease;
