@@ -241,6 +241,63 @@ async function loadGallery() {
       track.scrollLeft = left;
     };
 
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let didSwipe = false;
+
+    const startSwipe = (x, y) => {
+      touchStartX = x;
+      touchStartY = y;
+      didSwipe = false;
+    };
+
+    const endSwipe = (x, y) => {
+      const deltaX = x - touchStartX;
+      const deltaY = y - touchStartY;
+
+      if (Math.abs(deltaX) < 45 || Math.abs(deltaX) < Math.abs(deltaY)) {
+        return;
+      }
+
+      didSwipe = true;
+      scrollGallery(deltaX < 0 ? 1 : -1);
+
+      setTimeout(() => {
+        didSwipe = false;
+      }, 250);
+    };
+
+    track.addEventListener("touchstart", (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      startSwipe(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    track.addEventListener("touchend", (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+
+      endSwipe(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    track.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+
+      startSwipe(event.clientX, event.clientY);
+    });
+
+    track.addEventListener("pointerup", (event) => {
+      endSwipe(event.clientX, event.clientY);
+    });
+
+    track.addEventListener("click", (event) => {
+      if (!didSwipe) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+
     prev?.addEventListener("click", () => {
       scrollGallery(-1);
     });
