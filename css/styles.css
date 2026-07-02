@@ -1231,40 +1231,31 @@ svg.bikesection {
   }
 
   .sponsor-marquee {
-    max-height: 470px;
+    height: 160px;
+    max-height: none;
     overflow: hidden;
-    padding: 28px 0;
+    padding: 16px 0 24px;
   }
 
   .sponsor-marquee-track {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 44px;
-    animation: sponsorScrollVertical 18s linear infinite;
-    margin-right: auto;
-    margin-left: auto;
+    gap: 36px;
+    width: max-content;
+    animation: sponsorScroll 26s linear infinite;
+    margin: 0;
   }
 
   .sponsor-logo {
-    width: min(86vw, 420px);
-    height: 118px;
-    margin: 0 auto;
+    width: min(74vw, 340px);
+    height: 120px;
+    margin: 0;
   }
 
   .sponsor-logo img {
     max-width: 100%;
-    max-height: 118px;
+    max-height: 120px;
     object-fit: contain;
-  }
-
-  @keyframes sponsorScrollVertical {
-    from {
-      transform: translateY(0);
-    }
-
-    to {
-      transform: translateY(-50%);
-    }
   }
 }
 

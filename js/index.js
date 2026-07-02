@@ -230,12 +230,23 @@ async function loadGallery() {
       return firstCard.offsetWidth + gap;
     };
 
+    const scrollGallery = (direction) => {
+      const left = track.scrollLeft + (getStep() * direction);
+
+      if (typeof track.scrollTo === "function") {
+        track.scrollTo({ left, behavior: "smooth" });
+        return;
+      }
+
+      track.scrollLeft = left;
+    };
+
     prev?.addEventListener("click", () => {
-      track.scrollBy({ left: -getStep(), behavior: "smooth" });
+      scrollGallery(-1);
     });
 
     next?.addEventListener("click", () => {
-      track.scrollBy({ left: getStep(), behavior: "smooth" });
+      scrollGallery(1);
     });
 
   } catch (error) {
@@ -270,7 +281,8 @@ async function loadSponsors() {
       const img = document.createElement("img");
       img.src = `./assets/images/sponsor/${sponsor.file}`;
       img.alt = sponsor.alt || "Logo sponsor";
-      img.loading = "lazy";
+      img.loading = "eager";
+      img.decoding = "async";
 
       img.onerror = () => {
         logo.remove();
