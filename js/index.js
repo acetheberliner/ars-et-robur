@@ -195,6 +195,10 @@ async function loadGallery() {
 
     if (!images.length) return;
 
+   // --- RIGA AGGIUNTA: Mescola le immagini in modo casuale ---
+    images.sort(() => Math.random() - 0.5);
+    // ---------------------------------------------------------
+
     track.innerHTML = "";
 
     images.forEach((image) => {
@@ -230,13 +234,52 @@ async function loadGallery() {
       return firstCard.offsetWidth + gap;
     };
 
+    const scrollGallery = (direction) => {
+      const left = track.scrollLeft + (getStep() * direction);
+
+      if (typeof track.scrollTo === "function") {
+        track.scrollTo({ left, behavior: "smooth" });
+        return;
+      }
+
+      track.scrollLeft = left;
+    };
+
     prev?.addEventListener("click", () => {
-      track.scrollBy({ left: -getStep(), behavior: "smooth" });
+      scrollGallery(-1);
     });
 
     next?.addEventListener("click", () => {
-      track.scrollBy({ left: getStep(), behavior: "smooth" });
+      scrollGallery(1);
     });
+
+// --- ABILITA LO SCORRIMENTO CON LE DITA (TOUCH SWIPE) ---
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    track.addEventListener("touchstart", (e) => {
+      isDown = true;
+      // Registra la posizione iniziale del dito e dello scroll attuale
+      startX = e.touches[0].pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    }, { passive: true });
+
+    track.addEventListener("touchend", () => {
+      isDown = false;
+    });
+
+    track.addEventListener("touchmove", (e) => {
+      if (!isDown) return;
+      
+      // Calcola quanto si è spostato il dito
+      const x = e.touches[0].pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.5; // Il moltiplicatore (1.5) regola la reattività
+      
+      // Aggiorna lo scroll della galleria
+      track.scrollLeft = scrollLeft - walk;
+    }, { passive: true });
+    // --------------------------------------------------------
 
   } catch (error) {
     console.error("errore caricamento gallery:", error);
@@ -270,7 +313,8 @@ async function loadSponsors() {
       const img = document.createElement("img");
       img.src = `./assets/images/sponsor/${sponsor.file}`;
       img.alt = sponsor.alt || "Logo sponsor";
-      img.loading = "lazy";
+      img.loading = "eager";
+      img.decoding = "async";
 
       img.onerror = () => {
         logo.remove();
@@ -279,9 +323,44 @@ async function loadSponsors() {
       logo.appendChild(img);
       track.appendChild(logo);
     });
+
+    startSponsorMarquee(track);
   } catch (error) {
     console.error("errore caricamento sponsor:", error);
   }
+}
+
+function startSponsorMarquee(track) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  let position = 0;
+  let previousTime = performance.now();
+  let frameId;
+
+  const getLimit = () => track.scrollWidth / 2;
+
+  const animate = (currentTime) => {
+    const elapsed = currentTime - previousTime;
+    const speed = window.matchMedia("(max-width: 640px)").matches ? 110 : 72;
+    const limit = getLimit();
+
+    previousTime = currentTime;
+    position = limit ? (position + (elapsed * speed / 1000)) % limit : 0;
+    track.style.transform = `translate3d(${-position}px, 0, 0)`;
+    frameId = requestAnimationFrame(animate);
+  };
+
+  const restart = () => {
+    cancelAnimationFrame(frameId);
+    position = 0;
+    previousTime = performance.now();
+    track.style.animation = "none";
+    track.style.transform = "translate3d(0, 0, 0)";
+    frameId = requestAnimationFrame(animate);
+  };
+
+  restart();
+  window.addEventListener("resize", restart);
 }
 
 menuBtn?.addEventListener("click", toggleMobileMenu);
