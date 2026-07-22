@@ -217,6 +217,18 @@ async function loadGallery() {
       };
 
       card.appendChild(img);
+
+      const description = typeof image.description === "string"
+        ? image.description.trim()
+        : "";
+
+      if (description) {
+        const caption = document.createElement("span");
+        caption.className = "gallery-caption";
+        caption.textContent = description;
+        card.appendChild(caption);
+      }
+
       track.appendChild(card);
     });
 
