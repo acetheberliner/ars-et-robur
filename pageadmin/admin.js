@@ -279,6 +279,7 @@
   function normalizePosters(items) {
     return items.map((item) => ({
       file: String(item.file || ""),
+      ...(item.pdf ? { pdf: String(item.pdf) } : {}),
       ...(item.title ? { title: String(item.title) } : {})
     }));
   }
@@ -702,7 +703,13 @@
       form.appendChild(titleField.wrapper);
     }
 
-    form.appendChild(createElement("span", "file-meta", item.file));
+    form.appendChild(
+      createElement(
+        "span",
+        "file-meta",
+        item.pdf ? `${item.file} · PDF originale incluso` : item.file
+      )
+    );
 
     const actions = createElement("div", "card-actions");
     const orderActions = createElement("div", "order-actions");
@@ -909,15 +916,21 @@
     const mediaRoot = type === "gallery" ? config.galleryMediaPath : config.postersMediaPath;
     const [item] = list.splice(index, 1);
     const path = `${mediaRoot}/${item.file}`;
+    const relatedPaths = [
+      path,
+      ...(type === "posters" && item.pdf ? [`${mediaRoot}/${item.pdf}`] : [])
+    ];
 
-    if (state.uploads.has(path)) {
-      state.uploads.delete(path);
-      const previewUrl = state.previewUrls.get(path);
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      state.previewUrls.delete(path);
-    } else if (state.existingPaths.has(path)) {
-      state.deletedPaths.add(path);
-    }
+    relatedPaths.forEach((relatedPath) => {
+      if (state.uploads.has(relatedPath)) {
+        state.uploads.delete(relatedPath);
+        const previewUrl = state.previewUrls.get(relatedPath);
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        state.previewUrls.delete(relatedPath);
+      } else if (state.existingPaths.has(relatedPath)) {
+        state.deletedPaths.add(relatedPath);
+      }
+    });
 
     renderContentList(type);
     updateDirtyState();
@@ -978,6 +991,7 @@
           ? "Conversione PDF ad alta qualità…"
           : "Ottimizzazione in corso…";
 
+        const sourceIsPdf = isPdfFile(file);
         const processed = await optimizeImage(file, type);
         const filename = createFilename(type, processed.extension);
         const path = `${mediaRoot}/${filename}`;
@@ -993,13 +1007,21 @@
             description: ""
           });
         } else {
-          list.unshift({
-            file: filename
-          });
+          const poster = { file: filename };
+
+          if (sourceIsPdf) {
+            const pdfFilename = filename.replace(/\.[^.]+$/, ".pdf");
+            state.uploads.set(`${mediaRoot}/${pdfFilename}`, file);
+            poster.pdf = pdfFilename;
+          }
+
+          list.unshift(poster);
         }
 
         queueItem.image.src = previewUrl;
-        queueItem.status.textContent = `Pronto · ${formatBytes(processed.blob.size)}`;
+        queueItem.status.textContent = sourceIsPdf
+          ? `Pronto · anteprima ${formatBytes(processed.blob.size)} + PDF originale`
+          : `Pronto · ${formatBytes(processed.blob.size)}`;
         renderContentList(type);
         updateDirtyState();
       } catch (error) {

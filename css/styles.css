@@ -232,8 +232,8 @@ button {
   display: grid;
   place-items: center;
   position: absolute;
-  transform: translateZ(-5%);
-  top: 40%;
+  top: 50%;
+  transform: translateY(-50%);
   width: 58px;
   height: 58px;
   border: 1px solid rgba(255,255,255,.24);
@@ -255,33 +255,29 @@ button {
 }
 
 .gallery-arrow:hover {
-  transform: translateY(-2px);
+  transform: translateY(calc(-50% - 2px));
   background: rgba(255,255,255,.16);
 }
 
 @media (min-width: 721px) {
-  .gallery-slider {
-    padding-bottom: 82px;
-  }
-
-  .gallery-track {
-    padding-bottom: 38px;
-  }
-
   .gallery-arrow {
-    top: auto;
-    bottom: 8px;
-    transform: none;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.11);
   }
 
   #galleryPrev {
-    left: calc(50% - 66px);
+    left: 24px;
   }
 
   #galleryNext {
-    right: auto;
-    left: calc(50% + 8px);
+    right: 24px;
+    left: auto;
+  }
+
+  .gallery-arrow:hover {
+    transform: translateY(calc(-50% - 2px));
   }
 }
 
@@ -312,7 +308,7 @@ button {
   .gallery-arrow {
     width: 46px;
     height: 46px;
-    top: 44%;
+    top: 50%;
     background: rgba(255,255,255,.16);
   }
 
@@ -1245,7 +1241,7 @@ svg.bikesection {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
-.sponsor-cta span {
+.sponsor-cta > span {
   display: block;
   margin-bottom: 16px;
   color: #000000;
@@ -2033,6 +2029,7 @@ svg.bikesection {
   color: #ffffff;
   font-size: 0.76rem;
   font-weight: 900;
+  object-fit: cover;
   box-shadow: 0 10px 20px rgba(14, 165, 233, 0.22);
 }
 
@@ -2874,6 +2871,42 @@ body {
   width: min(1240px, calc(100% - 64px));
   min-height: 100svh;
   padding: 118px 0 48px;
+}
+
+.sponsor-button {
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #3892f8;
+  color: #fff;
+  text-align: center;
+}
+
+.sponsor-button span {
+  display: inline;
+  margin: 0;
+  color: inherit;
+}
+
+.lightbox-pdf-link {
+  position: fixed;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 2;
+  min-height: 48px;
+  padding: 12px 20px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #f4eb00;
+  color: #062f4d;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.lightbox-pdf-link[hidden] {
+  display: none;
 }
 
 .hero-next::before {
