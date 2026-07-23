@@ -13,6 +13,32 @@ const brandLogo = document.querySelector("#brandLogo");
 const whiteLogo = "./assets/images/LogoArs-removebg.webp";
 const blackLogo = "./assets/images/Ars_tras.webp";
 
+function getContentValue(content, path) {
+  return path.split(".").reduce((value, key) => value?.[key], content);
+}
+
+async function loadSiteContent() {
+  try {
+    const response = await fetch("./assets/content/site-content.json", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) throw new Error("site-content.json non trovato");
+
+    const content = await response.json();
+
+    $$("[data-content]").forEach((element) => {
+      const value = getContentValue(content, element.dataset.content);
+
+      if (typeof value === "string" && value.trim()) {
+        element.textContent = value;
+      }
+    });
+  } catch (error) {
+    console.error("errore caricamento testi:", error);
+  }
+}
+
 function updateNavbar() {
   const isScrolled = window.scrollY > 20;
 
@@ -495,6 +521,8 @@ window.addEventListener("scroll", updateNavbar, { passive: true });
 
 // -------------------------------------------------------
 updateNavbar();
+
+loadSiteContent();
 
 initReveal();
 

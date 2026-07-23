@@ -5,5 +5,6 @@ window.ARS_ADMIN_CONFIG = Object.freeze({
   galleryJsonPath: "assets/gallery/gallery.json",
   galleryMediaPath: "assets/gallery",
   postersJsonPath: "assets/weekly/posters.json",
-  postersMediaPath: "assets/weekly"
+  postersMediaPath: "assets/weekly",
+  siteContentJsonPath: "assets/content/site-content.json"
 });

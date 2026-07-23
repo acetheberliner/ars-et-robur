@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' blob: data: https://raw.githubusercontent.com; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' blob: data: https://raw.githubusercontent.com; script-src 'self'; style-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Gestione contenuti · Ars et Robur</title>
   <link rel="icon" href="../favicon.ico">
-  <link rel="stylesheet" href="./admin.css?v=4">
+  <link rel="stylesheet" href="./admin.css?v=5">
 </head>
 <body>
   <a class="skip-link" href="#mainContent">Vai al contenuto</a>
@@ -99,8 +99,8 @@
         <div class="page-intro">
           <div>
             <p class="eyebrow">Contenuti del sito</p>
-            <h1>Gallery e locandine</h1>
-            <p>Carica, descrivi e ordina i contenuti. Nulla cambia online finché non scegli “Pubblica modifiche”.</p>
+            <h1>Gestisci il sito</h1>
+            <p>Aggiorna immagini, locandine e testi. Nulla cambia online finché non scegli “Pubblica modifiche”.</p>
           </div>
           <div class="repository-context" aria-label="Repository collegata">
             <span>Repository</span>
@@ -119,6 +119,9 @@
           <button id="postersTab" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="postersPanel">
             <span>Locandine</span>
             <span id="postersCount" class="tab-count">0</span>
+          </button>
+          <button id="textsTab" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="textsPanel">
+            <span>Testi del sito</span>
           </button>
         </nav>
 
@@ -174,11 +177,11 @@
               </div>
 
               <label id="postersDropzone" class="dropzone" for="postersInput">
-                <input id="postersInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                <input id="postersInput" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" multiple>
                 <span class="dropzone-icon" aria-hidden="true">＋</span>
                 <strong>Trascina qui le locandine</strong>
                 <span>oppure scegli i file dal dispositivo</span>
-                <small>JPG, PNG o WebP · massimo 12 MB ciascuno</small>
+                <small>PDF (prima pagina), JPG, PNG o WebP · PDF fino a 25 MB</small>
               </label>
 
               <div id="postersQueue" class="upload-queue" aria-live="polite"></div>
@@ -201,6 +204,18 @@
             </div>
           </div>
         </section>
+
+        <section id="textsPanel" class="tab-panel" role="tabpanel" aria-labelledby="textsTab" hidden>
+          <div class="text-editor-intro">
+            <div>
+              <p class="eyebrow">Editor contenuti</p>
+              <h2>Modifica i testi per sezione</h2>
+              <p>Le anteprime mostrano gerarchia, tono e contrasto della sezione. Struttura, immagini e collegamenti restano protetti.</p>
+            </div>
+            <span class="format-badge">Anteprima live</span>
+          </div>
+          <div id="siteContentEditor" class="site-content-editor"></div>
+        </section>
       </section>
     </main>
   </div>
@@ -219,7 +234,8 @@
 
   <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
 
-  <script src="./admin-config.js?v=4"></script>
-  <script src="./admin.js?v=6"></script>
+  <script src="./admin-config.js?v=5"></script>
+  <script src="./vendor/pdfjs/pdf.min.js"></script>
+  <script src="./admin.js?v=9"></script>
 </body>
 </html>

@@ -128,9 +128,9 @@
         </div>
 
         <div class="hero-next-heading reveal">
-          <p class="hero-next-index">"La squadra più antica d’Italia"</p>
+          <p class="hero-next-index" data-content="hero.tagline">"La squadra più antica d’Italia"</p>
           <h1>Ars et<br>Robur</h1>
-          <p class="hero-next-manifesto">La storia pedala ancora</p>
+          <p class="hero-next-manifesto" data-content="hero.manifesto">La storia pedala ancora</p>
         </div>
 
         <div class="hero-next-photo reveal">
@@ -144,13 +144,13 @@
         </div>
 
         <div class="hero-next-intro reveal">
-          <p>Ars et Robur Cesena è molto più di una squadra: è un gruppo di persone unite dalla passione per la bicicletta, dal rispetto della strada e dal piacere di pedalare insieme, ogni settimana.</p>
+          <p data-content="hero.intro">Ars et Robur Cesena è molto più di una squadra: è un gruppo di persone unite dalla passione per la bicicletta, dal rispetto della strada e dal piacere di pedalare insieme, ogni settimana.</p>
           <div class="hero-next-actions">
             <a href="#contatti" class="hero-next-primary">
-              Pedala con noi
+              <span data-content="hero.primaryAction">Pedala con noi</span>
               <i data-lucide="arrow-up-right"></i>
             </a>
-            <a href="#uscite" class="hero-next-link">Prossime uscite <i data-lucide="arrow-right"></i></a>
+            <a href="#uscite" class="hero-next-link"><span data-content="hero.secondaryAction">Prossime uscite</span> <i data-lucide="arrow-right"></i></a>
           </div>
         </div>
 
@@ -218,17 +218,17 @@
     <section id="chi-siamo" class="section">
       <div class="container split">
         <div class="reveal">
-          <p class="eyebrow" style="font-size: 16.8px;">chi siamo</p>
-          <h2 style="color: #14213D;">Più di una squadra</h2>
-          <p class="section-text" style="color: #14213D;">
+          <p class="eyebrow" style="font-size: 16.8px;" data-content="about.eyebrow">chi siamo</p>
+          <h2 style="color: #14213D;" data-content="about.title">Più di una squadra</h2>
+          <p class="section-text" style="color: #14213D;" data-content="about.body">
             Siamo un gruppo unito, organizzato e appassionato, dove ogni uscita è occasione per condividere chilometri, amicizia e spirito sportivo. Tesserarsi con Ars et Robur significa entrare in una realtà fatta di persone vere, supporto reciproco e passione autentica per la bicicletta.
           </p>
         </div>
 
         <div class="glass-card reveal">
           <i data-lucide="bike" class="bikesection"></i>
-          <h3 style="color: #14213D;">Qui conta il gruppo, prima dei chilometri</h3>
-          <p style="color: #14213D;">
+          <h3 style="color: #14213D;" data-content="about.cardTitle">Qui conta il gruppo, prima dei chilometri</h3>
+          <p style="color: #14213D;" data-content="about.cardBody">
             Allenamenti, uscite sociali, eventi e raduni: la squadra vive la bici come esperienza,
             non solo come prestazione.
           </p>
@@ -239,9 +239,9 @@
     <section id="squadra" class="section section-dark">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">squadra</p>
-          <h2>Volti, sorrisi e chilometri condivisi</h2>
-          <p>
+          <p class="eyebrow" data-content="gallery.eyebrow">squadra</p>
+          <h2 data-content="gallery.title">Volti, sorrisi e chilometri condivisi</h2>
+          <p data-content="gallery.body">
             Dal cuore di Cesena, una storia che pedala da generazioni.Ogni fotografia racconta una storia fatta di salite, risate, fatica,
             soddisfazioni e momenti che rendono unico il nostro gruppo.
           </p>
@@ -264,18 +264,18 @@
     <section id="uscite" class="posters-section section weekly-section">
       <div class="container">
          <div class="weekly-copy reveal">
-          <p class="eyebrow" style="font-size: 16.8px;">uscite settimanali</p>
+          <p class="eyebrow" style="font-size: 16.8px;" data-content="weekly.eyebrow">uscite settimanali</p>
 
-          <h2 style="color: #14213D;">Si parte, vieni con noi?</h2>
+          <h2 style="color: #14213D;" data-content="weekly.title">Si parte, vieni con noi?</h2>
 
-          <p class="section-text" style="color: #14213D;">
+          <p class="section-text" style="color: #14213D;" data-content="weekly.body">
             Consulta i programmi aggiornati con orari, punti di ritrovo, percorsi e tutte le informazioni utili per pedalare insieme al gruppo.
           </p>
 
           <div class="weekly-info">
             <div class="hide-mobile">
               <i data-lucide="map-pin"></i>
-              <span style="color: #59a3f7; margin-bottom: 5px;">Leggi le locandine per scoprire i dettagli</span>
+              <span style="color: #59a3f7; margin-bottom: 5px;" data-content="weekly.helper">Leggi le locandine per scoprire i dettagli</span>
             </div>
           </div>
 
@@ -289,7 +289,7 @@
               <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22 12a10 10 0 1 0-11.56 9.87v-6.98H7.9V12h2.54V9.8c0-2.5 1.5-3.88 3.78-3.88 1.1 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.9h-2.34v6.98A10 10 0 0 0 22 12z"/>
               </svg>
-              Apri su Facebook
+              <span data-content="weekly.action">Apri su Facebook</span>
             </a>
           </div>
         </div>
@@ -302,33 +302,33 @@
     <section id="attivita" class="section section-soft">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow" style="color: #eaf3f5b8">Attività</p>
-          <h2 style="color: white;">Non solo chilometri</h2>
+          <p class="eyebrow" style="color: #eaf3f5b8" data-content="activities.eyebrow">Attività</p>
+          <h2 style="color: white;" data-content="activities.title">Non solo chilometri</h2>
         </div>
 
         <div class="cards-grid">
           <article class="card reveal">
             <i data-lucide="users"></i>
-            <h3 style="color: #024577; font-weight: 600;">Pedalare insieme</h3>
-            <p style="color: #042539;">Ogni uscita è un’occasione per condividere chilometri, sorrisi, fatica e quella complicità che nasce solo vivendo la strada in gruppo.</p>
+            <h3 style="color: #024577; font-weight: 600;" data-content="activities.cards.0.title">Pedalare insieme</h3>
+            <p style="color: #042539;" data-content="activities.cards.0.body">Ogni uscita è un’occasione per condividere chilometri, sorrisi, fatica e quella complicità che nasce solo vivendo la strada in gruppo.</p>
           </article>
 
           <article class="card reveal">
             <i data-lucide="mountain"></i>
-            <h3 style="color: #024577; font-weight: 600;">Territorio da vivere</h3>
-            <p style="color: #042539;">Dalle strade di Cesena alle colline romagnole e non solo, ogni percorso racconta il territorio attraverso panorami, salite e luoghi simbolo del ciclismo locale.</p>
+            <h3 style="color: #024577; font-weight: 600;" data-content="activities.cards.1.title">Territorio da vivere</h3>
+            <p style="color: #042539;" data-content="activities.cards.1.body">Dalle strade di Cesena alle colline romagnole e non solo, ogni percorso racconta il territorio attraverso panorami, salite e luoghi simbolo del ciclismo locale.</p>
           </article>
 
           <article class="card reveal">
             <i data-lucide="trophy"></i>
-            <h3 style="color: #024577; font-weight: 600;">Eventi e grandi sfide</h3>
-            <p style="color: #042539;">Raduni, mediofondo, manifestazioni e appuntamenti cicloturistici vissuti con entusiasmo, spirito sportivo e voglia di mettersi in gioco.</p>
+            <h3 style="color: #024577; font-weight: 600;" data-content="activities.cards.2.title">Eventi e grandi sfide</h3>
+            <p style="color: #042539;" data-content="activities.cards.2.body">Raduni, mediofondo, manifestazioni e appuntamenti cicloturistici vissuti con entusiasmo, spirito sportivo e voglia di mettersi in gioco.</p>
           </article>
 
           <article class="card reveal">
             <i data-lucide="shield-check"></i>
-            <h3 style="color: #024577; font-weight: 600;">Valori che uniscono</h3>
-            <p style="color: #042539;">Rispetto, sicurezza, amicizia e passione autentica: perché vivere la bicicletta significa anche condividere uno stile di vita sano e genuino.</p>
+            <h3 style="color: #024577; font-weight: 600;" data-content="activities.cards.3.title">Valori che uniscono</h3>
+            <p style="color: #042539;" data-content="activities.cards.3.body">Rispetto, sicurezza, amicizia e passione autentica: perché vivere la bicicletta significa anche condividere uno stile di vita sano e genuino.</p>
           </article>
         </div>
       </div>
@@ -338,16 +338,16 @@
       <div class="container">
         <div class="sponsor-header reveal">
           <div>
-            <p class="eyebrow" style="font-size: 16.8px;">sponsor</p>
-            <h2 style="color: #14213D;">Le realtà al nostro fianco</h2>
-            <p class="section-text" style="color: #14213D;">
+            <p class="eyebrow" style="font-size: 16.8px;" data-content="sponsors.eyebrow">sponsor</p>
+            <h2 style="color: #14213D;" data-content="sponsors.title">Le realtà al nostro fianco</h2>
+            <p class="section-text" style="color: #14213D;" data-content="sponsors.body">
               Realtà, aziende e attività del territorio che sostengono la squadra e condividono i valori dello sport,
               della socialità e della partecipazione.
             </p>
           </div>
 
           <div class="sponsor-cta">
-            <span style="color: #14213D;">Vuoi sostenere il nostro progetto?</span>
+            <span style="color: #14213D;" data-content="sponsors.prompt">Vuoi sostenere il nostro progetto?</span>
               <a
                 href="https://wa.me/3488529108?text=Buongiorno%2C%20abbiamo%20visualizzato%20il%20sito%20web%20della%20vostra%20squadra%20ciclistica%20e%20saremmo%20interessati%20ad%20unirci%20al%20team%20di%20sponsor%21"
                 target="_blank"
@@ -356,7 +356,7 @@
                 title="diventa uno sponsor della squadra"
               >
               <i data-lucide="megaphone"></i>              
-              Diventa sponsor
+              <span data-content="sponsors.action">Diventa sponsor</span>
             </a>
           </div>
         </div>
@@ -371,11 +371,11 @@
       <div class="container contact-box reveal mt-5">
         <div class="contact-content">
           <div class="contact-copy">
-            <p class="eyebrow mt-2">contatti</p>
+            <p class="eyebrow mt-2" data-content="contact.eyebrow">contatti</p>
 
-            <h2 style="font-size: 55px;">La tua prossima uscita potrebbe essere con noi!</h2>
+            <h2 style="font-size: 55px;" data-content="contact.title">La tua prossima uscita potrebbe essere con noi!</h2>
 
-            <p>
+            <p data-content="contact.body">
               Che tu sia alle prime pedalate o un ciclista esperto, in Ars et Robur troverai sempre un gruppo pronto ad accoglierti. Scopri i nostri canali, seguici sui social o scrivici direttamente.
             </p>
           </div>
@@ -475,7 +475,7 @@
       <div class="footer-main">
         <div>
           <p class="footer-brand">G.S. Ars et Robur - Cesena</p>
-          <p class="footer-text">
+          <p class="footer-text" data-content="footer.description">
             Squadra ciclistica dilettantistica legata al territorio cesenate.
           </p>
           <img src="./assets/images/LogoArs-removebg.webp" style="width: 200px" alt="Logo G.S. Ars et Robur" class="logo-footer">
@@ -539,6 +539,6 @@
   </div>
 
   <script defer src="https://unpkg.com/lucide@latest"></script>
-  <script defer src="./js/index.js"></script>
+  <script defer src="./js/index.js?v=2"></script>
 </body>
 </html>

@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "tagline": "\"La squadra più antica d’Italia\"",
+    "manifesto": "La storia pedala ancora",
+    "intro": "Ars et Robur Cesena è molto più di una squadra: è un gruppo di persone unite dalla passione per la bicicletta, dal rispetto della strada e dal piacere di pedalare insieme, ogni settimana.",
+    "primaryAction": "Pedala con noi",
+    "secondaryAction": "Prossime uscite"
+  },
+  "about": {
+    "eyebrow": "chi siamo",
+    "title": "Più di una squadra",
+    "body": "Siamo un gruppo unito, organizzato e appassionato, dove ogni uscita è occasione per condividere chilometri, amicizia e spirito sportivo. Tesserarsi con Ars et Robur significa entrare in una realtà fatta di persone vere, supporto reciproco e passione autentica per la bicicletta.",
+    "cardTitle": "Qui conta il gruppo, prima dei chilometri",
+    "cardBody": "Allenamenti, uscite sociali, eventi e raduni: la squadra vive la bici come esperienza, non solo come prestazione."
+  },
+  "gallery": {
+    "eyebrow": "squadra",
+    "title": "Volti, sorrisi e chilometri condivisi",
+    "body": "Dal cuore di Cesena, una storia che pedala da generazioni. Ogni fotografia racconta una storia fatta di salite, risate, fatica, soddisfazioni e momenti che rendono unico il nostro gruppo."
+  },
+  "weekly": {
+    "eyebrow": "uscite settimanali",
+    "title": "Si parte, vieni con noi?",
+    "body": "Consulta i programmi aggiornati con orari, punti di ritrovo, percorsi e tutte le informazioni utili per pedalare insieme al gruppo.",
+    "helper": "Leggi le locandine per scoprire i dettagli",
+    "action": "Apri su Facebook"
+  },
+  "activities": {
+    "eyebrow": "Attività",
+    "title": "Non solo chilometri",
+    "cards": [
+      {
+        "title": "Pedalare insieme",
+        "body": "Ogni uscita è un’occasione per condividere chilometri, sorrisi, fatica e quella complicità che nasce solo vivendo la strada in gruppo."
+      },
+      {
+        "title": "Territorio da vivere",
+        "body": "Dalle strade di Cesena alle colline romagnole e non solo, ogni percorso racconta il territorio attraverso panorami, salite e luoghi simbolo del ciclismo locale."
+      },
+      {
+        "title": "Eventi e grandi sfide",
+        "body": "Raduni, mediofondo, manifestazioni e appuntamenti cicloturistici vissuti con entusiasmo, spirito sportivo e voglia di mettersi in gioco."
+      },
+      {
+        "title": "Valori che uniscono",
+        "body": "Rispetto, sicurezza, amicizia e passione autentica: perché vivere la bicicletta significa anche condividere uno stile di vita sano e genuino."
+      }
+    ]
+  },
+  "sponsors": {
+    "eyebrow": "sponsor",
+    "title": "Le realtà al nostro fianco",
+    "body": "Realtà, aziende e attività del territorio che sostengono la squadra e condividono i valori dello sport, della socialità e della partecipazione.",
+    "prompt": "Vuoi sostenere il nostro progetto?",
+    "action": "Diventa sponsor"
+  },
+  "contact": {
+    "eyebrow": "contatti",
+    "title": "La tua prossima uscita potrebbe essere con noi!",
+    "body": "Che tu sia alle prime pedalate o un ciclista esperto, in Ars et Robur troverai sempre un gruppo pronto ad accoglierti. Scopri i nostri canali, seguici sui social o scrivici direttamente."
+  },
+  "footer": {
+    "description": "Squadra ciclistica dilettantistica legata al territorio cesenate."
+  }
+}

@@ -6,7 +6,127 @@
   const SESSION_KEY = "ars-admin-github-token";
   const PERSISTENT_KEY = "ars-admin-github-token-persistent";
   const MAX_SOURCE_SIZE = 12 * 1024 * 1024;
+  const MAX_PDF_SIZE = 25 * 1024 * 1024;
+  const PDF_TYPE = "application/pdf";
   const SUPPORTED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+  const SITE_CONTENT_SECTIONS = [
+    {
+      id: "hero",
+      label: "Hero",
+      description: "Il primo messaggio percepito da chi apre il sito.",
+      theme: "dark",
+      fields: [
+        ["hero.tagline", "Sovratitolo", 90],
+        ["hero.manifesto", "Manifesto", 80],
+        ["hero.intro", "Presentazione", 360, true],
+        ["hero.primaryAction", "Pulsante principale", 40],
+        ["hero.secondaryAction", "Collegamento secondario", 40]
+      ],
+      preview: ["hero.tagline", "hero.manifesto", "hero.intro"]
+    },
+    {
+      id: "about",
+      label: "Chi siamo",
+      description: "Presentazione della squadra e messaggio distintivo.",
+      theme: "light",
+      fields: [
+        ["about.eyebrow", "Etichetta sezione", 40],
+        ["about.title", "Titolo", 100],
+        ["about.body", "Testo introduttivo", 520, true],
+        ["about.cardTitle", "Titolo approfondimento", 120],
+        ["about.cardBody", "Testo approfondimento", 320, true]
+      ],
+      preview: ["about.eyebrow", "about.title", "about.body"]
+    },
+    {
+      id: "gallery",
+      label: "Gallery",
+      description: "Introduzione alle fotografie della squadra.",
+      theme: "dark",
+      fields: [
+        ["gallery.eyebrow", "Etichetta sezione", 40],
+        ["gallery.title", "Titolo", 110],
+        ["gallery.body", "Descrizione", 420, true]
+      ],
+      preview: ["gallery.eyebrow", "gallery.title", "gallery.body"]
+    },
+    {
+      id: "weekly",
+      label: "Uscite settimanali",
+      description: "Testi che accompagnano le locandine.",
+      theme: "light",
+      fields: [
+        ["weekly.eyebrow", "Etichetta sezione", 50],
+        ["weekly.title", "Titolo", 100],
+        ["weekly.body", "Descrizione", 420, true],
+        ["weekly.helper", "Messaggio di supporto", 120],
+        ["weekly.action", "Pulsante Facebook", 50]
+      ],
+      preview: ["weekly.eyebrow", "weekly.title", "weekly.body"]
+    },
+    {
+      id: "activities",
+      label: "Attività",
+      description: "Titolo della sezione e contenuti delle quattro card.",
+      theme: "dark",
+      fields: [
+        ["activities.eyebrow", "Etichetta sezione", 40],
+        ["activities.title", "Titolo sezione", 100],
+        ["activities.cards.0.title", "Card 1 · Titolo", 90],
+        ["activities.cards.0.body", "Card 1 · Testo", 320, true],
+        ["activities.cards.1.title", "Card 2 · Titolo", 90],
+        ["activities.cards.1.body", "Card 2 · Testo", 320, true],
+        ["activities.cards.2.title", "Card 3 · Titolo", 90],
+        ["activities.cards.2.body", "Card 3 · Testo", 320, true],
+        ["activities.cards.3.title", "Card 4 · Titolo", 90],
+        ["activities.cards.3.body", "Card 4 · Testo", 320, true]
+      ],
+      preview: ["activities.eyebrow", "activities.title", "activities.cards.0.body"]
+    },
+    {
+      id: "sponsors",
+      label: "Sponsor",
+      description: "Presentazione delle realtà che sostengono la squadra.",
+      theme: "light",
+      fields: [
+        ["sponsors.eyebrow", "Etichetta sezione", 40],
+        ["sponsors.title", "Titolo", 100],
+        ["sponsors.body", "Descrizione", 420, true],
+        ["sponsors.prompt", "Invito", 100],
+        ["sponsors.action", "Pulsante sponsor", 50]
+      ],
+      preview: ["sponsors.eyebrow", "sponsors.title", "sponsors.body"]
+    },
+    {
+      id: "contact",
+      label: "Contatti",
+      description: "Invito finale prima dei canali di contatto.",
+      theme: "dark",
+      fields: [
+        ["contact.eyebrow", "Etichetta sezione", 40],
+        ["contact.title", "Titolo", 120],
+        ["contact.body", "Descrizione", 420, true]
+      ],
+      preview: ["contact.eyebrow", "contact.title", "contact.body"]
+    },
+    {
+      id: "footer",
+      label: "Footer",
+      description: "Breve descrizione della squadra a fondo pagina.",
+      theme: "light",
+      fields: [
+        ["footer.description", "Descrizione", 180, true]
+      ],
+      preview: ["", "footer.description", ""]
+    }
+  ];
+
+  const PDF_LIBRARY =
+    window.pdfjsLib || window["pdfjs-dist/build/pdf"] || null;
+
+  if (PDF_LIBRARY) {
+    PDF_LIBRARY.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.js";
+  }
 
   const state = {
     token:
@@ -17,8 +137,10 @@
     baseCommitSha: "",
     gallery: [],
     posters: [],
+    siteContent: {},
     initialGallery: [],
     initialPosters: [],
+    initialSiteContent: {},
     uploads: new Map(),
     deletedPaths: new Set(),
     existingPaths: new Set(),
@@ -46,8 +168,10 @@
     globalNotice: document.querySelector("#globalNotice"),
     galleryTab: document.querySelector("#galleryTab"),
     postersTab: document.querySelector("#postersTab"),
+    textsTab: document.querySelector("#textsTab"),
     galleryPanel: document.querySelector("#galleryPanel"),
     postersPanel: document.querySelector("#postersPanel"),
+    textsPanel: document.querySelector("#textsPanel"),
     galleryCount: document.querySelector("#galleryCount"),
     postersCount: document.querySelector("#postersCount"),
     galleryInput: document.querySelector("#galleryInput"),
@@ -60,6 +184,7 @@
     postersList: document.querySelector("#postersList"),
     galleryEmpty: document.querySelector("#galleryEmpty"),
     postersEmpty: document.querySelector("#postersEmpty"),
+    siteContentEditor: document.querySelector("#siteContentEditor"),
     confirmDialog: document.querySelector("#confirmDialog"),
     dialogTitle: document.querySelector("#dialogTitle"),
     dialogDescription: document.querySelector("#dialogDescription"),
@@ -162,6 +287,18 @@
     return JSON.stringify(value);
   }
 
+  function getNestedValue(object, path) {
+    if (!path) return "";
+    return path.split(".").reduce((value, key) => value?.[key], object);
+  }
+
+  function setNestedValue(object, path, nextValue) {
+    const keys = path.split(".");
+    const finalKey = keys.pop();
+    const target = keys.reduce((value, key) => value[key], object);
+    target[finalKey] = nextValue;
+  }
+
   function getChangeCount() {
     let count = state.uploads.size + state.deletedPaths.size;
     const galleryHasFileChanges =
@@ -184,6 +321,10 @@
       !postersHaveFileChanges &&
       stableJson(normalizePosters(state.posters)) !== stableJson(state.initialPosters)
     ) {
+      count += 1;
+    }
+
+    if (stableJson(state.siteContent) !== stableJson(state.initialSiteContent)) {
       count += 1;
     }
 
@@ -256,6 +397,20 @@
     return JSON.parse(decodeBase64Utf8(payload.content));
   }
 
+  async function readLocalSiteContent() {
+    const response = await fetch(`../${config.siteContentJsonPath}`, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        "Il file iniziale dei testi del sito non è disponibile. Aggiorna i file del progetto e riprova."
+      );
+    }
+
+    return response.json();
+  }
+
   async function getBranchState() {
     const branchPath = encodeGitPath(config.branch);
     const reference = await githubFetch(repoPath(`/git/ref/heads/${branchPath}`));
@@ -279,9 +434,13 @@
         githubFetch(repoPath("")),
         getBranchState()
       ]);
-      const [gallery, posters] = await Promise.all([
+      const hasPublishedSiteContent = branch.paths.has(config.siteContentJsonPath);
+      const [gallery, posters, siteContent] = await Promise.all([
         readJsonFile(config.galleryJsonPath, branch.commitSha),
-        readJsonFile(config.postersJsonPath, branch.commitSha)
+        readJsonFile(config.postersJsonPath, branch.commitSha),
+        hasPublishedSiteContent
+          ? readJsonFile(config.siteContentJsonPath, branch.commitSha)
+          : readLocalSiteContent()
       ]);
 
       if (!repository.permissions?.push) {
@@ -293,8 +452,12 @@
       state.existingPaths = branch.paths;
       state.gallery = normalizeGallery(gallery);
       state.posters = normalizePosters(posters);
+      state.siteContent = cloneJson(siteContent);
       state.initialGallery = cloneJson(state.gallery);
       state.initialPosters = cloneJson(state.posters);
+      state.initialSiteContent = hasPublishedSiteContent
+        ? cloneJson(state.siteContent)
+        : {};
       state.uploads.clear();
       state.deletedPaths.clear();
       state.previewUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -422,13 +585,18 @@
   }
 
   function switchTab(tabName) {
-    const isGallery = tabName === "gallery";
-    elements.galleryTab.classList.toggle("is-active", isGallery);
-    elements.galleryTab.setAttribute("aria-selected", String(isGallery));
-    elements.postersTab.classList.toggle("is-active", !isGallery);
-    elements.postersTab.setAttribute("aria-selected", String(!isGallery));
-    elements.galleryPanel.hidden = !isGallery;
-    elements.postersPanel.hidden = isGallery;
+    const tabs = [
+      ["gallery", elements.galleryTab, elements.galleryPanel],
+      ["posters", elements.postersTab, elements.postersPanel],
+      ["texts", elements.textsTab, elements.textsPanel]
+    ];
+
+    tabs.forEach(([name, tab, panel]) => {
+      const isActive = name === tabName;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", String(isActive));
+      panel.hidden = !isActive;
+    });
   }
 
   function createElement(tag, className = "", text = "") {
@@ -577,9 +745,152 @@
     });
   }
 
+  function createPreviewContent(tag, className, path) {
+    return createElement(
+      tag,
+      className,
+      String(getNestedValue(state.siteContent, path) || "")
+    );
+  }
+
+  function createPreviewAction(path, secondary = false) {
+    return createPreviewContent(
+      "span",
+      `preview-action${secondary ? " preview-action-secondary" : ""}`,
+      path
+    );
+  }
+
+  function renderSectionPreview(preview, section) {
+    const canvas = createElement("div", "preview-canvas");
+    const label = createElement("span", "preview-label", "Anteprima completa");
+    preview.replaceChildren(label, canvas);
+
+    if (section.id === "hero") {
+      canvas.append(
+        createPreviewContent("p", "preview-kicker preview-highlight", "hero.tagline"),
+        createElement("p", "preview-brand", "ARS ET ROBUR"),
+        createPreviewContent("p", "preview-manifesto", "hero.manifesto"),
+        createPreviewContent("p", "preview-body", "hero.intro")
+      );
+      const actions = createElement("div", "preview-actions");
+      actions.append(
+        createPreviewAction("hero.primaryAction"),
+        createPreviewAction("hero.secondaryAction", true)
+      );
+      canvas.appendChild(actions);
+      return;
+    }
+
+    canvas.append(
+      createPreviewContent("p", "preview-eyebrow", `${section.id}.eyebrow`),
+      createPreviewContent("h3", "", `${section.id}.title`),
+      createPreviewContent("p", "preview-body", `${section.id}.body`)
+    );
+
+    if (section.id === "about") {
+      const feature = createElement("div", "preview-feature");
+      feature.append(
+        createPreviewContent("h4", "", "about.cardTitle"),
+        createPreviewContent("p", "", "about.cardBody")
+      );
+      canvas.appendChild(feature);
+    }
+
+    if (section.id === "weekly") {
+      canvas.append(
+        createPreviewContent("p", "preview-support", "weekly.helper"),
+        createPreviewAction("weekly.action")
+      );
+    }
+
+    if (section.id === "activities") {
+      const cards = createElement("div", "preview-mini-grid");
+      state.siteContent.activities.cards.forEach((_, index) => {
+        const card = createElement("article", "preview-mini-card");
+        card.append(
+          createPreviewContent("h4", "", `activities.cards.${index}.title`),
+          createPreviewContent("p", "", `activities.cards.${index}.body`)
+        );
+        cards.appendChild(card);
+      });
+      canvas.appendChild(cards);
+    }
+
+    if (section.id === "sponsors") {
+      const prompt = createElement("div", "preview-prompt");
+      prompt.append(
+        createPreviewContent("strong", "", "sponsors.prompt"),
+        createPreviewAction("sponsors.action")
+      );
+      canvas.appendChild(prompt);
+    }
+
+    if (section.id === "footer") {
+      canvas.replaceChildren(
+        createElement("p", "preview-brand preview-brand-small", "ARS ET ROBUR"),
+        createPreviewContent("p", "preview-body", "footer.description")
+      );
+    }
+  }
+
+  function renderSiteContentEditor() {
+    elements.siteContentEditor.replaceChildren();
+
+    SITE_CONTENT_SECTIONS.forEach((section, sectionIndex) => {
+      const card = createElement("section", "text-section-card");
+      card.dataset.section = section.id;
+      const fields = createElement("div", "text-section-fields");
+      const heading = createElement("div", "text-section-heading");
+      const sectionMarker = createElement(
+        "span",
+        "text-section-marker",
+        String(sectionIndex + 1).padStart(2, "0")
+      );
+      const headingCopy = createElement("div");
+      headingCopy.append(
+        createElement("h3", "", section.label),
+        createElement("p", "", section.description)
+      );
+      heading.append(sectionMarker, headingCopy);
+      fields.appendChild(heading);
+
+      const preview = createElement("aside", "text-preview");
+      preview.dataset.theme = section.theme;
+      preview.dataset.section = section.id;
+      preview.setAttribute("aria-label", `Anteprima sezione ${section.label}`);
+
+      const updatePreview = () => {
+        renderSectionPreview(preview, section);
+      };
+
+      section.fields.forEach(([path, label, maxLength, multiline = false]) => {
+        const field = createField(label, getNestedValue(state.siteContent, path), {
+          multiline,
+          maxLength,
+          placeholder: "Inserisci il testo mostrato sul sito"
+        });
+
+        field.input.classList.add("site-content-field");
+        field.input.required = true;
+        field.input.addEventListener("input", () => {
+          setNestedValue(state.siteContent, path, field.input.value);
+          updatePreview();
+          updateDirtyState();
+        });
+        fields.appendChild(field.wrapper);
+      });
+
+      updatePreview();
+      card.append(fields, preview);
+      elements.siteContentEditor.appendChild(card);
+    });
+  }
+
   function renderAll() {
     renderContentList("gallery");
     renderContentList("posters");
+    renderSiteContentEditor();
     updateDirtyState();
   }
 
@@ -662,8 +973,10 @@
       queue.appendChild(queueItem.element);
 
       try {
-        validateSourceFile(file);
-        queueItem.status.textContent = "Ottimizzazione in corso…";
+        validateSourceFile(file, type);
+        queueItem.status.textContent = isPdfFile(file)
+          ? "Conversione PDF ad alta qualità…"
+          : "Ottimizzazione in corso…";
 
         const processed = await optimizeImage(file, type);
         const filename = createFilename(type, processed.extension);
@@ -711,19 +1024,34 @@
     return { element, image, status };
   }
 
-  function validateSourceFile(file) {
-    if (!SUPPORTED_TYPES.has(file.type)) {
-      throw new Error("Formato non supportato. Usa JPG, PNG o WebP.");
+  function isPdfFile(file) {
+    return file.type === PDF_TYPE || file.name.toLowerCase().endsWith(".pdf");
+  }
+
+  function validateSourceFile(file, type) {
+    const isPdf = isPdfFile(file);
+
+    if (isPdf && type !== "posters") {
+      throw new Error("I PDF possono essere usati soltanto per le locandine.");
     }
 
-    if (file.size > MAX_SOURCE_SIZE) {
-      throw new Error("Il file supera il limite di 12 MB.");
+    if (!isPdf && !SUPPORTED_TYPES.has(file.type)) {
+      throw new Error("Formato non supportato. Usa PDF, JPG, PNG o WebP.");
+    }
+
+    const sizeLimit = isPdf ? MAX_PDF_SIZE : MAX_SOURCE_SIZE;
+    if (file.size > sizeLimit) {
+      throw new Error(`Il file supera il limite di ${isPdf ? 25 : 12} MB.`);
     }
   }
 
   async function optimizeImage(file, type) {
+    if (isPdfFile(file)) {
+      return renderPdfPoster(file);
+    }
+
     const bitmap = await createImageBitmap(file);
-    const maxDimension = type === "gallery" ? 2400 : 2200;
+    const maxDimension = type === "gallery" ? 2400 : 3600;
     const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
     const width = Math.max(1, Math.round(bitmap.width * scale));
     const height = Math.max(1, Math.round(bitmap.height * scale));
@@ -742,7 +1070,7 @@
     bitmap.close();
 
     const mimeType = type === "gallery" ? "image/webp" : "image/jpeg";
-    const quality = type === "gallery" ? 0.86 : 0.9;
+    const quality = type === "gallery" ? 0.86 : 0.97;
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, mimeType, quality));
 
     if (!blob) {
@@ -753,6 +1081,53 @@
       blob,
       extension: type === "gallery" ? "webp" : "jpg"
     };
+  }
+
+  async function renderPdfPoster(file) {
+    if (!PDF_LIBRARY) {
+      throw new Error("Il convertitore PDF non è disponibile. Ricarica la pagina e riprova.");
+    }
+
+    const documentTask = PDF_LIBRARY.getDocument({
+      data: await file.arrayBuffer()
+    });
+    const pdf = await documentTask.promise;
+
+    try {
+      const page = await pdf.getPage(1);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const targetLongSide = 3600;
+      const scale = Math.min(6, targetLongSide / Math.max(baseViewport.width, baseViewport.height));
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d", { alpha: false });
+
+      canvas.width = Math.max(1, Math.round(viewport.width));
+      canvas.height = Math.max(1, Math.round(viewport.height));
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      await page.render({
+        canvasContext: context,
+        viewport,
+        background: "#ffffff"
+      }).promise;
+
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/jpeg", 0.97)
+      );
+
+      if (!blob) {
+        throw new Error("Il browser non è riuscito a convertire il PDF.");
+      }
+
+      return {
+        blob,
+        extension: "jpg"
+      };
+    } finally {
+      await pdf.destroy();
+    }
   }
 
   function createFilename(type, extension) {
@@ -821,6 +1196,19 @@
   async function publishChanges() {
     if (!getChangeCount() || state.isPublishing || state.isRefreshing) return;
 
+    const invalidTextField = elements.siteContentEditor.querySelector(".site-content-field:invalid");
+    if (invalidTextField) {
+      switchTab("texts");
+      invalidTextField.reportValidity();
+      invalidTextField.focus();
+      showNotice(
+        "Completa il campo evidenziato prima di pubblicare.",
+        "error",
+        "Testo mancante"
+      );
+      return;
+    }
+
     state.isPublishing = true;
     setBusy(true);
     hideNotice();
@@ -840,6 +1228,8 @@
         stableJson(normalizeGallery(state.gallery)) !== stableJson(state.initialGallery);
       const postersChanged =
         stableJson(normalizePosters(state.posters)) !== stableJson(state.initialPosters);
+      const siteContentChanged =
+        stableJson(state.siteContent) !== stableJson(state.initialSiteContent);
 
       const uploadEntries = await Promise.all(
         [...state.uploads.entries()].map(async ([path, blob]) => {
@@ -875,6 +1265,19 @@
         );
         treeEntries.push({
           path: config.postersJsonPath,
+          mode: "100644",
+          type: "blob",
+          sha: created.sha
+        });
+      }
+
+      if (siteContentChanged) {
+        const created = await createBlob(
+          `${JSON.stringify(state.siteContent, null, 2)}\n`,
+          "utf-8"
+        );
+        treeEntries.push({
+          path: config.siteContentJsonPath,
           mode: "100644",
           type: "blob",
           sha: created.sha
@@ -923,6 +1326,7 @@
       state.deletedPaths.forEach((path) => state.existingPaths.delete(path));
       state.initialGallery = cloneJson(normalizeGallery(state.gallery));
       state.initialPosters = cloneJson(normalizePosters(state.posters));
+      state.initialSiteContent = cloneJson(state.siteContent);
       state.uploads.clear();
       state.deletedPaths.clear();
 
@@ -954,10 +1358,14 @@
       stableJson(normalizeGallery(state.gallery)) !== stableJson(state.initialGallery);
     const postersChanged =
       stableJson(normalizePosters(state.posters)) !== stableJson(state.initialPosters);
+    const siteContentChanged =
+      stableJson(state.siteContent) !== stableJson(state.initialSiteContent);
 
+    if (siteContentChanged && (galleryChanged || postersChanged)) return "Aggiorna contenuti del sito";
     if (galleryChanged && postersChanged) return "Aggiorna gallery e locandine";
     if (galleryChanged) return "Aggiorna gallery";
     if (postersChanged) return "Aggiorna locandine";
+    if (siteContentChanged) return "Aggiorna testi del sito";
     return "Aggiorna contenuti multimediali";
   }
 
@@ -979,17 +1387,21 @@
     elements.publishButton.addEventListener("click", publishChanges);
     elements.galleryTab.addEventListener("click", () => switchTab("gallery"));
     elements.postersTab.addEventListener("click", () => switchTab("posters"));
-    elements.galleryTab.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowRight") {
-        switchTab("posters");
-        elements.postersTab.focus();
-      }
-    });
-    elements.postersTab.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowLeft") {
-        switchTab("gallery");
-        elements.galleryTab.focus();
-      }
+    elements.textsTab.addEventListener("click", () => switchTab("texts"));
+    const tabs = [
+      ["gallery", elements.galleryTab],
+      ["posters", elements.postersTab],
+      ["texts", elements.textsTab]
+    ];
+    tabs.forEach(([name, tab], index) => {
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const [nextName, nextTab] = tabs[(index + direction + tabs.length) % tabs.length];
+        switchTab(nextName);
+        nextTab.focus();
+      });
     });
     elements.dialogCancel.addEventListener("click", () => closeDialog(false));
     elements.dialogConfirm.addEventListener("click", () => closeDialog(true));
