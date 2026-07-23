@@ -206,3 +206,39 @@ Se viene esposta, revocarla immediatamente dalle impostazioni GitHub.
 Senza l'opzione “Ricorda su questo dispositivo”, la chiave resta soltanto nella
 sessione del browser. Con l'opzione attiva viene conservata nel browser locale:
 utilizzarla soltanto sul computer personale e protetto del gestore.
+
+## 6. Pubblicazione automatica su Aruba
+
+Il workflow `.github/workflows/deploy-aruba.yml` pubblica automaticamente su Aruba
+ogni commit inviato al branch `master`, compresi quelli creati dal pannello.
+
+Prima del primo deploy, in GitHub aprire:
+
+```text
+Settings → Secrets and variables → Actions → New repository secret
+```
+
+e creare questi tre repository secret:
+
+```text
+ARUBA_FTP_USERNAME
+ARUBA_FTP_PASSWORD
+ARUBA_FTP_SERVER_DIR
+```
+
+- `ARUBA_FTP_USERNAME`: account Aruba nel formato `123456@aruba.it`;
+- `ARUBA_FTP_PASSWORD`: password dell'account Aruba;
+- `ARUBA_FTP_SERVER_DIR`: cartella remota che contiene `index.html`, sempre con `/`
+  finale. Usare `./` se, dopo l'accesso FTP, si entra direttamente nella radice del
+  sito; altrimenti indicare la cartella del dominio, per esempio
+  `./www.gsarsetrobur-cesena.com/`.
+
+Il deploy usa FTPS esplicito cifrato sulla porta 21 e non esegue la pulizia completa dello
+spazio web. Se nel pannello Aruba è attiva la funzione “Limita accesso FTP”, i
+runner GitHub potrebbero essere bloccati perché non hanno un indirizzo IP fisso.
+
+Il primo deploy può essere avviato manualmente da:
+
+```text
+Actions → Pubblica su Aruba → Run workflow
+```

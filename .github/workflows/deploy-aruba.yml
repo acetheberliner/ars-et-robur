@@ -1,0 +1,58 @@
+name: Pubblica su Aruba
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-aruba-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Sincronizza il sito
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Scarica la versione da pubblicare
+        uses: actions/checkout@v6
+
+      - name: Verifica configurazione Aruba
+        env:
+          FTP_USERNAME: ${{ secrets.ARUBA_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.ARUBA_FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.ARUBA_FTP_SERVER_DIR }}
+        run: |
+          test -n "$FTP_USERNAME" || { echo "::error::Manca il secret ARUBA_FTP_USERNAME"; exit 1; }
+          test -n "$FTP_PASSWORD" || { echo "::error::Manca il secret ARUBA_FTP_PASSWORD"; exit 1; }
+          test -n "$FTP_SERVER_DIR" || { echo "::error::Manca il secret ARUBA_FTP_SERVER_DIR"; exit 1; }
+          [[ "$FTP_SERVER_DIR" == */ ]] || { echo "::error::ARUBA_FTP_SERVER_DIR deve terminare con /"; exit 1; }
+
+      - name: Pubblica tramite FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ftp.gsarsetrobur-cesena.com
+          username: ${{ secrets.ARUBA_FTP_USERNAME }}
+          password: ${{ secrets.ARUBA_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          server-dir: ${{ secrets.ARUBA_FTP_SERVER_DIR }}
+          local-dir: ./
+          log-level: standard
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.vscode/**
+            **/.agents/**
+            **/node_modules/**
+            README.md
+            TODO.md
+            utils/**
