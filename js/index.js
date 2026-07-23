@@ -375,6 +375,105 @@ function startSponsorMarquee(track) {
   window.addEventListener("resize", restart);
 }
 
+function initPageScrollbar() {
+  const scrollbar = document.createElement("div");
+  const thumb = document.createElement("div");
+
+  scrollbar.className = "page-scrollbar";
+  scrollbar.setAttribute("aria-hidden", "true");
+  thumb.className = "page-scrollbar-thumb";
+  scrollbar.appendChild(thumb);
+  document.body.appendChild(scrollbar);
+
+  let frameId = 0;
+  let maxScroll = 0;
+  let thumbTravel = 0;
+  let dragStartY = 0;
+  let dragStartScroll = 0;
+  let isDragging = false;
+
+  const update = () => {
+    frameId = 0;
+
+    const scrollHeight = document.documentElement.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    const trackHeight = scrollbar.clientHeight;
+
+    maxScroll = Math.max(0, scrollHeight - viewportHeight);
+
+    if (!maxScroll) {
+      scrollbar.hidden = true;
+      return;
+    }
+
+    scrollbar.hidden = false;
+
+    const thumbHeight = Math.max(48, trackHeight * viewportHeight / scrollHeight);
+    thumbTravel = Math.max(0, trackHeight - thumbHeight);
+
+    const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+    thumb.style.height = `${thumbHeight}px`;
+    thumb.style.transform = `translateY(${progress * thumbTravel}px)`;
+  };
+
+  const requestUpdate = () => {
+    if (!frameId) frameId = requestAnimationFrame(update);
+  };
+
+  thumb.addEventListener("pointerdown", (event) => {
+    isDragging = true;
+    dragStartY = event.clientY;
+    dragStartScroll = window.scrollY;
+    document.documentElement.classList.add("is-scrollbar-dragging");
+    thumb.classList.add("is-dragging");
+    thumb.setPointerCapture(event.pointerId);
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
+  thumb.addEventListener("pointermove", (event) => {
+    if (!isDragging || !thumbTravel) return;
+
+    const dragDistance = event.clientY - dragStartY;
+    const targetScroll = dragStartScroll + dragDistance * maxScroll / thumbTravel;
+
+    document.scrollingElement.scrollTop = Math.min(
+      maxScroll,
+      Math.max(0, targetScroll)
+    );
+    event.preventDefault();
+  });
+
+  const stopDragging = (event) => {
+    if (!isDragging) return;
+
+    isDragging = false;
+    document.documentElement.classList.remove("is-scrollbar-dragging");
+    thumb.classList.remove("is-dragging");
+
+    if (event?.pointerId !== undefined && thumb.hasPointerCapture(event.pointerId)) {
+      thumb.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  thumb.addEventListener("pointerup", stopDragging);
+  thumb.addEventListener("pointercancel", stopDragging);
+  thumb.addEventListener("lostpointercapture", stopDragging);
+  window.addEventListener("pointerup", stopDragging);
+  window.addEventListener("pointercancel", stopDragging);
+  window.addEventListener("blur", stopDragging);
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  window.addEventListener("load", requestUpdate);
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(requestUpdate).observe(document.body);
+  }
+
+  update();
+}
+
 menuBtn?.addEventListener("click", toggleMobileMenu);
 lightboxClose?.addEventListener("click", closeLightbox);
 
@@ -402,6 +501,8 @@ initReveal();
 initGallery();
 
 initPdfLightbox();
+
+initPageScrollbar();
 
 window.addEventListener("load", () => {
   loadWeeklyPosters();
