@@ -23,7 +23,8 @@
     deletedPaths: new Set(),
     existingPaths: new Set(),
     previewUrls: new Map(),
-    isPublishing: false
+    isPublishing: false,
+    isRefreshing: false
   };
 
   const elements = {
@@ -36,6 +37,7 @@
     rememberToken: document.querySelector("#rememberToken"),
     loginNotice: document.querySelector("#loginNotice"),
     logoutButton: document.querySelector("#logoutButton"),
+    refreshButton: document.querySelector("#refreshButton"),
     publishButton: document.querySelector("#publishButton"),
     changeCount: document.querySelector("#changeCount"),
     connectionStatus: document.querySelector("#connectionStatus"),
@@ -79,6 +81,7 @@
     elements.loginView.hidden = view !== "login";
     elements.workspaceView.hidden = view !== "workspace";
     elements.publishButton.hidden = view !== "workspace";
+    elements.refreshButton.hidden = view !== "workspace";
   }
 
   function setConnectionStatus(label, status = "neutral") {
@@ -120,10 +123,20 @@
 
   function setBusy(isBusy) {
     document.body.classList.toggle("is-busy", isBusy);
-    elements.publishButton.disabled = isBusy || !getChangeCount();
+    elements.publishButton.disabled = isBusy || state.isRefreshing || !getChangeCount();
     elements.publishButton.querySelector("span:nth-child(2)").textContent = isBusy
       ? "Pubblicazione…"
       : "Pubblica modifiche";
+  }
+
+  function setRefreshing(isRefreshing) {
+    state.isRefreshing = isRefreshing;
+    document.body.classList.toggle("is-busy", isRefreshing);
+    elements.refreshButton.disabled = isRefreshing || state.isPublishing;
+    elements.refreshButton.querySelector("span:nth-child(2)").textContent = isRefreshing
+      ? "Aggiornamento…"
+      : "Aggiorna";
+    elements.publishButton.disabled = isRefreshing || state.isPublishing || !getChangeCount();
   }
 
   function cloneJson(value) {
@@ -182,7 +195,8 @@
 
     elements.changeCount.textContent = String(count);
     elements.changeCount.hidden = !count;
-    elements.publishButton.disabled = !count || state.isPublishing;
+    elements.publishButton.disabled = !count || state.isPublishing || state.isRefreshing;
+    elements.refreshButton.disabled = state.isPublishing || state.isRefreshing;
     setConnectionStatus(
       count ? `${count} modifiche da pubblicare` : `Collegato come ${state.user?.login || "admin"}`,
       count ? "warning" : "success"
@@ -199,6 +213,7 @@
     }
 
     const response = await fetch(`${API_BASE}${path}`, {
+      cache: "no-store",
       ...options,
       headers
     });
@@ -234,9 +249,9 @@
     return new TextDecoder().decode(bytes);
   }
 
-  async function readJsonFile(path) {
+  async function readJsonFile(path, ref) {
     const payload = await githubFetch(
-      repoPath(`/contents/${encodeGitPath(path)}?ref=${encodeURIComponent(config.branch)}`)
+      repoPath(`/contents/${encodeGitPath(path)}?ref=${encodeURIComponent(ref)}`)
     );
     return JSON.parse(decodeBase64Utf8(payload.content));
   }
@@ -255,16 +270,18 @@
     };
   }
 
-  async function loadWorkspace() {
+  async function loadWorkspace({ isRefresh = false } = {}) {
     setConnectionStatus("Caricamento contenuti…", "warning");
 
     try {
-      const [user, repository, branch, gallery, posters] = await Promise.all([
+      const [user, repository, branch] = await Promise.all([
         githubFetch("/user"),
         githubFetch(repoPath("")),
-        getBranchState(),
-        readJsonFile(config.galleryJsonPath),
-        readJsonFile(config.postersJsonPath)
+        getBranchState()
+      ]);
+      const [gallery, posters] = await Promise.all([
+        readJsonFile(config.galleryJsonPath, branch.commitSha),
+        readJsonFile(config.postersJsonPath, branch.commitSha)
       ]);
 
       if (!repository.permissions?.push) {
@@ -280,6 +297,10 @@
       state.initialPosters = cloneJson(state.posters);
       state.uploads.clear();
       state.deletedPaths.clear();
+      state.previewUrls.forEach((url) => URL.revokeObjectURL(url));
+      state.previewUrls.clear();
+      elements.galleryQueue.replaceChildren();
+      elements.postersQueue.replaceChildren();
 
       elements.repositoryName.textContent = `${config.owner}/${config.repository}`;
       elements.branchName.textContent = `Branch ${config.branch}`;
@@ -288,11 +309,23 @@
       renderAll();
       setVisibleView("workspace");
       setConnectionStatus(`Collegato come ${user.login}`, "success");
+      return true;
     } catch (error) {
       if (error.status === 401) {
         logout(false);
         showLoginError("La chiave GitHub non è valida oppure è scaduta. Inseriscine una nuova.");
-        return;
+        return false;
+      }
+
+      if (isRefresh) {
+        updateDirtyState();
+        showNotice(
+          error.message || "Non è stato possibile recuperare i contenuti più recenti.",
+          "error",
+          "Aggiornamento non riuscito"
+        );
+        showToast("I contenuti aperti non sono stati modificati.", "error");
+        return false;
       }
 
       logout(false);
@@ -301,6 +334,33 @@
           ? "La chiave non dispone del permesso Contents: Read and write per questa repository."
           : error.message
       );
+      return false;
+    }
+  }
+
+  async function refreshWorkspace() {
+    if (state.isPublishing || state.isRefreshing) return;
+
+    if (getChangeCount()) {
+      const confirmed = await confirmAction({
+        title: "Scartare le modifiche non pubblicate?",
+        description:
+          "Il pannello ricaricherà i contenuti da GitHub. Le modifiche presenti solo in questa pagina andranno perse.",
+        confirmLabel: "Scarta e aggiorna",
+        destructive: true
+      });
+      if (!confirmed) return;
+    }
+
+    setRefreshing(true);
+    hideNotice();
+
+    try {
+      const refreshed = await loadWorkspace({ isRefresh: true });
+      if (refreshed) showToast("Contenuti aggiornati all’ultima versione.", "success");
+    } finally {
+      setRefreshing(false);
+      updateDirtyState();
     }
   }
 
@@ -556,15 +616,31 @@
   let dialogResolver = null;
   let dialogPreviousFocus = null;
 
-  function confirmRemoval(title, description) {
+  function confirmAction({
+    title,
+    description,
+    confirmLabel = "Conferma",
+    destructive = false
+  }) {
     elements.dialogTitle.textContent = title;
     elements.dialogDescription.textContent = description;
+    elements.dialogConfirm.textContent = confirmLabel;
+    elements.dialogConfirm.className = `button ${destructive ? "button-danger" : "button-primary"}`;
     elements.confirmDialog.hidden = false;
     dialogPreviousFocus = document.activeElement;
     elements.dialogCancel.focus();
 
     return new Promise((resolve) => {
       dialogResolver = resolve;
+    });
+  }
+
+  function confirmRemoval(title, description) {
+    return confirmAction({
+      title,
+      description,
+      confirmLabel: "Elimina",
+      destructive: true
     });
   }
 
@@ -743,7 +819,7 @@
   }
 
   async function publishChanges() {
-    if (!getChangeCount() || state.isPublishing) return;
+    if (!getChangeCount() || state.isPublishing || state.isRefreshing) return;
 
     state.isPublishing = true;
     setBusy(true);
@@ -899,6 +975,7 @@
       }
       logout();
     });
+    elements.refreshButton.addEventListener("click", refreshWorkspace);
     elements.publishButton.addEventListener("click", publishChanges);
     elements.galleryTab.addEventListener("click", () => switchTab("gallery"));
     elements.postersTab.addEventListener("click", () => switchTab("posters"));

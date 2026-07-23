@@ -269,6 +269,13 @@ img {
   color: var(--muted);
 }
 
+.button-compact {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 7px 11px;
+  font-size: 0.82rem;
+}
+
 .button-danger {
   background: var(--danger);
   color: #fff;
@@ -985,6 +992,7 @@ img {
     padding-inline: 11px;
   }
 
+  #refreshButton > span:nth-child(2),
   #publishButton .button-icon,
   #logoutButton {
     display: none;
