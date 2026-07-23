@@ -461,6 +461,15 @@
         : {};
       state.uploads.clear();
       state.deletedPaths.clear();
+      state.posters.forEach((poster) => {
+        if (!poster.pdf) return;
+
+        const pdfPath = `${config.postersMediaPath}/${poster.pdf}`;
+        if (state.existingPaths.has(pdfPath)) {
+          state.deletedPaths.add(pdfPath);
+        }
+        delete poster.pdf;
+      });
       state.previewUrls.forEach((url) => URL.revokeObjectURL(url));
       state.previewUrls.clear();
       elements.galleryQueue.replaceChildren();
@@ -707,7 +716,7 @@
       createElement(
         "span",
         "file-meta",
-        item.pdf ? `${item.file} · PDF originale incluso` : item.file
+        item.file
       )
     );
 
@@ -1007,20 +1016,12 @@
             description: ""
           });
         } else {
-          const poster = { file: filename };
-
-          if (sourceIsPdf) {
-            const pdfFilename = filename.replace(/\.[^.]+$/, ".pdf");
-            state.uploads.set(`${mediaRoot}/${pdfFilename}`, file);
-            poster.pdf = pdfFilename;
-          }
-
-          list.unshift(poster);
+          list.unshift({ file: filename });
         }
 
         queueItem.image.src = previewUrl;
         queueItem.status.textContent = sourceIsPdf
-          ? `Pronto · anteprima ${formatBytes(processed.blob.size)} + PDF originale`
+          ? `Pronto · anteprima nitida ${formatBytes(processed.blob.size)}`
           : `Pronto · ${formatBytes(processed.blob.size)}`;
         renderContentList(type);
         updateDirtyState();

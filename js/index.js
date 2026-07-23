@@ -7,7 +7,6 @@ const mobileMenu = $("#mobileMenu");
 const lightbox = $("#lightbox");
 const lightboxImage = $("#lightboxImage");
 const lightboxClose = $("#lightboxClose");
-const lightboxPdfLink = $("#lightboxPdfLink");
 
 const brandLogo = document.querySelector("#brandLogo");
 
@@ -76,15 +75,11 @@ function initReveal() {
   $$(".reveal").forEach((el) => observer.observe(el));
 }
 
-function openLightbox(src, alt, pdfSrc = "") {
+function openLightbox(src, alt) {
   if (!lightbox || !lightboxImage) return;
 
   lightboxImage.src = src;
   lightboxImage.alt = alt || "";
-  if (lightboxPdfLink) {
-    lightboxPdfLink.href = pdfSrc;
-    lightboxPdfLink.hidden = !pdfSrc;
-  }
   lightbox.classList.add("is-open");
   document.body.style.overflow = "hidden";
 }
@@ -97,10 +92,6 @@ function closeLightbox() {
 
   setTimeout(() => {
     lightboxImage.src = "";
-    if (lightboxPdfLink) {
-      lightboxPdfLink.href = "";
-      lightboxPdfLink.hidden = true;
-    }
   }, 250);
 }
 
@@ -178,10 +169,8 @@ async function loadWeeklyPosters() {
       card.type = "button";
       card.className = "weekly-card";
       card.dataset.src = `./assets/weekly/${poster.file}`;
-      const pdfSrc = poster.pdf ? `./assets/weekly/${poster.pdf}` : "";
-
       card.addEventListener("click", () => {
-        openLightbox(card.dataset.src, poster.title || "Locandina uscita", pdfSrc);
+        openLightbox(card.dataset.src, poster.title || "Locandina uscita");
       });
 
       const img = document.createElement("img");
