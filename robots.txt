@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /pageadmin/
 
 Sitemap: https://www.gsarsetrobur-cesena.com/sitemap.xml

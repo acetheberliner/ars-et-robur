@@ -140,3 +140,69 @@ E aggiungere una nuova riga contenuta tra parentesi graffe {...} strutturata in 
 ## 4. Come aggiornare testi/titoli/parole/...
 
 L'unico modo per farlo è modificar l'html, tenendo presente che alcune dei contenuti non son statici (quindi presenti in chiaro nel codice html) bensi sono renderizzati in modo condizionale con funzioni inserite in js/index.js, che richiedono maggiore attenzione e comprensione.
+
+---
+
+## 5. Pannello di gestione contenuti
+
+Il pannello amministrativo è disponibile all'indirizzo:
+
+```text
+https://www.gsarsetrobur-cesena.com/pageadmin/
+```
+
+La pagina non è presente nella navigazione pubblica, è esclusa dalla sitemap e contiene
+le direttive `noindex`, `nofollow` e `noarchive`. La protezione effettiva è affidata
+all'autenticazione GitHub: conoscere l'indirizzo non consente di modificare il sito.
+
+Il pannello:
+
+- converte automaticamente le fotografie della gallery in WebP;
+- converte automaticamente le locandine in JPEG;
+- assegna nomi univoci ai file;
+- aggiorna `gallery.json` e `posters.json`;
+- consente modifica, riordino ed eliminazione;
+- pubblica file e JSON in un unico commit;
+- blocca la pubblicazione se il branch è cambiato dopo l'apertura del pannello.
+
+La procedura manuale descritta nelle sezioni precedenti rimane valida come fallback.
+
+### Creazione della chiave di accesso
+
+La chiave va creata una sola volta dall'account GitHub che gestisce la repository.
+
+1. Accedere a GitHub.
+2. Aprire `Settings` → `Developer settings` → `Personal access tokens` →
+   `Fine-grained tokens`.
+3. Selezionare `Generate new token`.
+4. Assegnare un nome riconoscibile, ad esempio:
+
+   ```text
+   Ars et Robur Content Manager
+   ```
+
+5. Scegliere una scadenza adeguata. Alla scadenza sarà sufficiente generare una nuova
+   chiave e inserirla nuovamente nel pannello.
+6. In `Repository access`, scegliere `Only select repositories`.
+7. Selezionare esclusivamente:
+
+   ```text
+   acetheberliner/ars-et-robur
+   ```
+
+8. In `Repository permissions`, assegnare esclusivamente:
+
+   ```text
+   Contents: Read and write
+   ```
+
+9. Lasciare tutte le altre permission su `No access`.
+10. Generare e copiare la chiave. GitHub la mostra una sola volta.
+11. Aprire `/pageadmin/`, incollare la chiave e scegliere se ricordarla sul dispositivo.
+
+Non inserire mai la chiave in file della repository, commit, email o messaggi.
+Se viene esposta, revocarla immediatamente dalle impostazioni GitHub.
+
+Senza l'opzione “Ricorda su questo dispositivo”, la chiave resta soltanto nella
+sessione del browser. Con l'opzione attiva viene conservata nel browser locale:
+utilizzarla soltanto sul computer personale e protetto del gestore.

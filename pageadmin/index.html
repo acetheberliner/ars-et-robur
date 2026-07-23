@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' blob: data: https://raw.githubusercontent.com; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Gestione contenuti · Ars et Robur</title>
+  <link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="./admin.css?v=3">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Vai al contenuto</a>
+
+  <div class="admin-shell">
+    <header class="admin-header">
+      <a class="admin-brand" href="../" aria-label="Torna al sito Ars et Robur">
+        <img src="../assets/images/LogoArs-removebg.webp" alt="" width="152" height="72">
+        <span>
+          <strong>Gestione contenuti</strong>
+          <small>Ars et Robur · Cesena</small>
+        </span>
+      </a>
+
+      <div class="header-actions">
+        <span id="connectionStatus" class="status-badge" data-state="neutral">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Non collegato</span>
+        </span>
+        <button id="publishButton" class="button button-primary" type="button" disabled>
+          <span class="button-icon" aria-hidden="true">↑</span>
+          <span>Pubblica modifiche</span>
+          <span id="changeCount" class="button-count" hidden>0</span>
+        </button>
+        <button id="logoutButton" class="button button-ghost" type="button" hidden>
+          Esci
+        </button>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <section id="setupView" class="access-view" hidden>
+        <div class="access-card">
+          <span class="access-mark" aria-hidden="true">A·R</span>
+          <p class="eyebrow">Configurazione iniziale</p>
+          <h1>Collega il pannello alla repository</h1>
+          <p>La configurazione della repository è incompleta. Controlla proprietario, nome e branch del progetto.</p>
+          <div class="notice notice-warning" role="status">
+            <strong>Il pannello è pronto, ma non è ancora configurato.</strong>
+            <span>Controlla i valori presenti in <code>pageadmin/admin-config.js</code>.</span>
+          </div>
+          <a class="button button-secondary" href="../">Torna al sito</a>
+        </div>
+      </section>
+
+      <section id="loginView" class="access-view" hidden>
+        <div class="access-card">
+          <span class="access-mark" aria-hidden="true">A·R</span>
+          <p class="eyebrow">Area riservata</p>
+          <h1>Aggiorna il sito senza toccare il codice</h1>
+          <p>Inserisci la chiave GitHub autorizzata esclusivamente per la repository Ars et Robur. Non viene inviata ad altri servizi.</p>
+
+          <form id="loginForm" class="login-form">
+            <div id="loginNotice" class="notice notice-error" role="alert" hidden></div>
+            <div class="field">
+              <label for="accessToken">Chiave di accesso GitHub</label>
+              <input id="accessToken" name="accessToken" type="password" autocomplete="current-password" spellcheck="false" required placeholder="github_pat_…">
+              <span class="field-helper">Usa un fine-grained token limitato alla sola repository.</span>
+            </div>
+            <label class="remember-control">
+              <input id="rememberToken" type="checkbox">
+              <span>
+                <strong>Ricorda su questo dispositivo</strong>
+                <small>Usalo soltanto su un computer personale e protetto.</small>
+              </span>
+            </label>
+            <button id="loginButton" class="button button-primary button-large" type="submit">
+              Accedi al pannello
+            </button>
+          </form>
+
+          <p class="privacy-note">Puoi rimuovere immediatamente la chiave salvata scegliendo “Esci”. Non condividerla tramite email o messaggi.</p>
+        </div>
+      </section>
+
+      <section id="workspaceView" class="workspace" hidden>
+        <div class="page-intro">
+          <div>
+            <p class="eyebrow">Contenuti del sito</p>
+            <h1>Gallery e locandine</h1>
+            <p>Carica, descrivi e ordina i contenuti. Nulla cambia online finché non scegli “Pubblica modifiche”.</p>
+          </div>
+          <div class="repository-context" aria-label="Repository collegata">
+            <span>Repository</span>
+            <strong id="repositoryName">—</strong>
+            <small id="branchName">—</small>
+          </div>
+        </div>
+
+        <div id="globalNotice" class="notice" role="status" aria-live="polite" hidden></div>
+
+        <nav class="tabs" aria-label="Tipi di contenuto">
+          <button id="galleryTab" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="galleryPanel">
+            <span>Gallery</span>
+            <span id="galleryCount" class="tab-count">0</span>
+          </button>
+          <button id="postersTab" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="postersPanel">
+            <span>Locandine</span>
+            <span id="postersCount" class="tab-count">0</span>
+          </button>
+        </nav>
+
+        <section id="galleryPanel" class="tab-panel" role="tabpanel" aria-labelledby="galleryTab">
+          <div class="working-layout">
+            <aside class="upload-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Nuove immagini</p>
+                  <h2>Aggiungi alla gallery</h2>
+                </div>
+                <span class="format-badge">WebP automatico</span>
+              </div>
+
+              <label id="galleryDropzone" class="dropzone" for="galleryInput">
+                <input id="galleryInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                <span class="dropzone-icon" aria-hidden="true">＋</span>
+                <strong>Trascina qui le fotografie</strong>
+                <span>oppure scegli i file dal dispositivo</span>
+                <small>JPG, PNG o WebP · massimo 12 MB ciascuno</small>
+              </label>
+
+              <div id="galleryQueue" class="upload-queue" aria-live="polite"></div>
+            </aside>
+
+            <div class="library-panel">
+              <div class="panel-heading library-heading">
+                <div>
+                  <p class="eyebrow">Contenuti attuali</p>
+                  <h2>Gallery pubblicata</h2>
+                </div>
+                <p>La gallery pubblica continua a mostrare le immagini in ordine casuale.</p>
+              </div>
+
+              <div id="galleryEmpty" class="empty-state" hidden>
+                <strong>Nessuna fotografia</strong>
+                <p>Carica la prima immagine usando l’area qui accanto.</p>
+              </div>
+              <div id="galleryList" class="content-grid" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="postersPanel" class="tab-panel" role="tabpanel" aria-labelledby="postersTab" hidden>
+          <div class="working-layout">
+            <aside class="upload-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Nuove uscite</p>
+                  <h2>Aggiungi locandine</h2>
+                </div>
+                <span class="format-badge">JPEG automatico</span>
+              </div>
+
+              <label id="postersDropzone" class="dropzone" for="postersInput">
+                <input id="postersInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                <span class="dropzone-icon" aria-hidden="true">＋</span>
+                <strong>Trascina qui le locandine</strong>
+                <span>oppure scegli i file dal dispositivo</span>
+                <small>JPG, PNG o WebP · massimo 12 MB ciascuno</small>
+              </label>
+
+              <div id="postersQueue" class="upload-queue" aria-live="polite"></div>
+            </aside>
+
+            <div class="library-panel">
+              <div class="panel-heading library-heading">
+                <div>
+                  <p class="eyebrow">Ordine di visualizzazione</p>
+                  <h2>Locandine pubblicate</h2>
+                </div>
+                <p>La prima locandina dell’elenco viene mostrata per prima sul sito.</p>
+              </div>
+
+              <div id="postersEmpty" class="empty-state" hidden>
+                <strong>Nessuna locandina</strong>
+                <p>Carica la prima locandina usando l’area qui accanto.</p>
+              </div>
+              <div id="postersList" class="content-grid content-grid-posters" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="confirmDialog" class="dialog-backdrop" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
+      <p class="eyebrow">Conferma richiesta</p>
+      <h2 id="dialogTitle">Eliminare questo contenuto?</h2>
+      <p id="dialogDescription">La rimozione verrà applicata soltanto alla prossima pubblicazione.</p>
+      <div class="dialog-actions">
+        <button id="dialogCancel" class="button button-secondary" type="button">Annulla</button>
+        <button id="dialogConfirm" class="button button-danger" type="button">Elimina</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./admin-config.js?v=4"></script>
+  <script src="./admin.js?v=4"></script>
+</body>
+</html>
